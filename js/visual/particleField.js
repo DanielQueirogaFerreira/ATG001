@@ -1,8 +1,8 @@
 /**
  * QUANTUM NEXUS - QUANTUM PARTICLE PHYSICS FIELD
  * High-performance 2D particle simulation with Global Power State,
- * Attraction & Repulsion mechanics, persistent gravitational beacons,
- * fluid vortices, singularity attractors & real-time audio FFT reactivity.
+ * Pure Gravitational Attraction & Repulsion mechanics, Hold-to-Charge Mega Attraction Wells,
+ * Cursor Force Auras, Persistent gravitational beacons, and full touch support.
  */
 
 class ParticleField {
@@ -10,7 +10,7 @@ class ParticleField {
     this.canvas = document.getElementById(canvasId);
     this.ctx = this.canvas.getContext('2d');
     this.particles = [];
-    this.particleCount = 1200;
+    this.particleCount = 1000;
     this.mode = 'quantum'; // 'quantum' | 'singularity' | 'neural' | 'vortex' | 'audio'
     this.width = window.innerWidth;
     this.height = window.innerHeight;
@@ -20,7 +20,7 @@ class ParticleField {
     this.powerTransitionAlpha = 1.0;
 
     // Force Physics State ('repel' | 'attract' | 'dual')
-    this.forceType = 'repel';
+    this.forceType = 'attract'; // Default to attract so user immediately sees it!
 
     // Persistent Gravitational / Anti-Gravity Beacons
     this.beacons = [];
@@ -28,10 +28,11 @@ class ParticleField {
     this.mouse = {
       x: this.width / 2,
       y: this.height / 2,
+      isHovering: false,
       isDown: false,
       downStartTime: 0,
-      radius: 220,
-      forceMultiplier: 1.0
+      baseRadius: 280,
+      radius: 280
     };
 
     this.shockwaves = [];
@@ -111,9 +112,9 @@ class ParticleField {
       x,
       y,
       type, // 'attractor' (pulls) or 'repulsor' (pushes)
-      radius: 18,
+      radius: 20,
       pulse: 0,
-      strength: type === 'attractor' ? 4.5 : 5.5,
+      strength: type === 'attractor' ? 8.0 : 8.0,
       color: type === 'attractor' ? '#a855f7' : '#00f3ff'
     });
 
@@ -129,12 +130,13 @@ class ParticleField {
     }
   }
 
-  addShockwave(x, y, power = 1.0) {
+  addWave(x, y, type = 'implosion', power = 1.0) {
     this.shockwaves.push({
       x,
       y,
-      radius: 5,
-      maxRadius: 350 * power,
+      type, // 'implosion' (pulls) or 'explosion' (pushes)
+      radius: type === 'implosion' ? 300 * power : 5,
+      targetRadius: type === 'implosion' ? 5 : 380 * power,
       speed: 16 * power,
       alpha: 1.0,
       power
@@ -146,15 +148,23 @@ class ParticleField {
   }
 
   bindEvents() {
+    // Mouse tracking across window
     window.addEventListener('mousemove', (e) => {
       this.mouse.x = e.clientX;
       this.mouse.y = e.clientY;
+      this.mouse.isHovering = true;
     });
 
-    this.canvas.addEventListener('mousedown', (e) => {
-      if (e.button === 0) { // Left click
+    window.addEventListener('mousedown', (e) => {
+      if (e.target.closest('button, input, select, a, .seq-cell, .theremin-pad-wrapper, .card-header')) {
+        return;
+      }
+
+      if (e.button === 0) { // Left click = hold to charge force field
         this.mouse.isDown = true;
         this.mouse.downStartTime = performance.now();
+        this.mouse.x = e.clientX;
+        this.mouse.y = e.clientY;
       } else if (e.button === 2) { // Right click = place beacon
         e.preventDefault();
         const type = this.forceType === 'attract' ? 'attractor' : 'repulsor';
@@ -162,21 +172,58 @@ class ParticleField {
       }
     });
 
-    this.canvas.addEventListener('contextmenu', (e) => e.preventDefault());
+    window.addEventListener('contextmenu', (e) => {
+      if (!e.target.closest('input, textarea')) {
+        e.preventDefault();
+      }
+    });
 
     window.addEventListener('mouseup', (e) => {
       if (this.mouse.isDown) {
         const holdDuration = (performance.now() - this.mouse.downStartTime) / 1000;
-        const power = Math.min(Math.max(holdDuration * 1.5, 0.6), 2.5);
-        this.addShockwave(this.mouse.x, this.mouse.y, power);
+        if (holdDuration > 0.4) {
+          const power = Math.min(Math.max(holdDuration * 1.5, 0.8), 2.8);
+          // In attraction mode, release an inward gravitational implosion; in repel mode release explosion
+          const waveType = this.forceType === 'attract' ? 'implosion' : 'explosion';
+          this.addWave(this.mouse.x, this.mouse.y, waveType, power);
+        }
         this.mouse.isDown = false;
       }
     });
 
+    // Mobile / Smartphone Touch Support
+    window.addEventListener('touchstart', (e) => {
+      if (e.touches.length > 0) {
+        const touch = e.touches[0];
+        if (e.target.closest('button, input, select, a, .seq-cell, .theremin-pad-wrapper, .card-header')) {
+          return;
+        }
+        this.mouse.x = touch.clientX;
+        this.mouse.y = touch.clientY;
+        this.mouse.isDown = true;
+        this.mouse.isHovering = true;
+        this.mouse.downStartTime = performance.now();
+      }
+    }, { passive: true });
+
     window.addEventListener('touchmove', (e) => {
       if (e.touches.length > 0) {
-        this.mouse.x = e.touches[0].clientX;
-        this.mouse.y = e.touches[0].clientY;
+        const touch = e.touches[0];
+        this.mouse.x = touch.clientX;
+        this.mouse.y = touch.clientY;
+        this.mouse.isHovering = true;
+      }
+    }, { passive: true });
+
+    window.addEventListener('touchend', (e) => {
+      if (this.mouse.isDown) {
+        const holdDuration = (performance.now() - this.mouse.downStartTime) / 1000;
+        if (holdDuration > 0.4) {
+          const power = Math.min(Math.max(holdDuration * 1.5, 0.8), 2.8);
+          const waveType = this.forceType === 'attract' ? 'implosion' : 'explosion';
+          this.addWave(this.mouse.x, this.mouse.y, waveType, power);
+        }
+        this.mouse.isDown = false;
       }
     }, { passive: true });
   }
@@ -199,19 +246,38 @@ class ParticleField {
     const centerX = this.width / 2;
     const centerY = this.height / 2;
 
-    // Update Shockwaves
+    // Calculate Hold Power Multiplier
+    let holdDuration = 0;
+    let holdMultiplier = 1.0;
+    if (this.mouse.isDown) {
+      holdDuration = (performance.now() - this.mouse.downStartTime) / 1000;
+      holdMultiplier = 1.0 + Math.min(holdDuration * 3.5, 6.0); // Up to 7x power when holding!
+      this.mouse.radius = this.mouse.baseRadius * (1.0 + Math.min(holdDuration * 1.2, 2.2)); // Expands up to 600px+
+    } else {
+      this.mouse.radius += (this.mouse.baseRadius - this.mouse.radius) * 0.1;
+    }
+
+    // Update Shockwaves / Implosions
     for (let s = this.shockwaves.length - 1; s >= 0; s--) {
       const sw = this.shockwaves[s];
-      sw.radius += sw.speed;
-      sw.alpha = 1.0 - (sw.radius / sw.maxRadius);
-      if (sw.radius >= sw.maxRadius || sw.alpha <= 0) {
-        this.shockwaves.splice(s, 1);
+      if (sw.type === 'implosion') {
+        sw.radius -= sw.speed;
+        sw.alpha = sw.radius / (300 * sw.power);
+        if (sw.radius <= 10 || sw.alpha <= 0) {
+          this.shockwaves.splice(s, 1);
+        }
+      } else {
+        sw.radius += sw.speed;
+        sw.alpha = 1.0 - (sw.radius / sw.targetRadius);
+        if (sw.radius >= sw.targetRadius || sw.alpha <= 0) {
+          this.shockwaves.splice(s, 1);
+        }
       }
     }
 
     // Update Beacons pulse animation
     for (let b = 0; b < this.beacons.length; b++) {
-      this.beacons[b].pulse = (this.beacons[b].pulse + 0.05) % (Math.PI * 2);
+      this.beacons[b].pulse = (this.beacons[b].pulse + 0.06) % (Math.PI * 2);
     }
 
     // Particle Physics Loop
@@ -243,26 +309,25 @@ class ParticleField {
         const bdist = Math.sqrt(bdx * bdx + bdy * bdy);
 
         if (beacon.type === 'attractor') {
-          // Gravitational Attraction & Orbit
-          if (bdist > 10) {
-            const pull = Math.min((beacon.strength * 120) / (bdist * bdist + 150), 3.0);
+          // Pure Attraction & Swirl
+          if (bdist > 8) {
+            const pull = Math.min((beacon.strength * 220) / (bdist * bdist + 100), 5.5);
             p.vx += (bdx / bdist) * pull;
             p.vy += (bdy / bdist) * pull;
-            // Orbital tangential velocity
-            p.vx += (-bdy / bdist) * 0.8;
-            p.vy += (bdx / bdist) * 0.8;
+            p.vx += (-bdy / bdist) * 1.5;
+            p.vy += (bdx / bdist) * 1.5;
           }
         } else {
-          // Anti-Gravity Repulsor
-          if (bdist < 260) {
-            const push = (1 - bdist / 260) * beacon.strength * 1.8;
+          // Repulsor
+          if (bdist < 280) {
+            const push = (1 - bdist / 280) * beacon.strength * 2.8;
             p.vx -= (bdx / (bdist || 1)) * push;
             p.vy -= (bdy / (bdist || 1)) * push;
           }
         }
       }
 
-      // Shockwave Repulsion
+      // Shockwave / Implosion Forces
       for (let s = 0; s < this.shockwaves.length; s++) {
         const sw = this.shockwaves[s];
         const swDx = p.x - sw.x;
@@ -270,41 +335,62 @@ class ParticleField {
         const swDist = Math.sqrt(swDx * swDx + swDy * swDy);
         const waveDiff = Math.abs(swDist - sw.radius);
 
-        if (waveDiff < 40) {
-          const force = (1 - waveDiff / 40) * 18 * sw.power;
-          p.vx += (swDx / (swDist || 1)) * force;
-          p.vy += (swDy / (swDist || 1)) * force;
+        if (waveDiff < 50) {
+          const force = (1 - waveDiff / 50) * 25 * sw.power;
+          if (sw.type === 'implosion') {
+            // Sucks particles inward toward center!
+            p.vx -= (swDx / (swDist || 1)) * force;
+            p.vy -= (swDy / (swDist || 1)) * force;
+          } else {
+            // Pushes particles outward
+            p.vx += (swDx / (swDist || 1)) * force;
+            p.vy += (swDy / (swDist || 1)) * force;
+          }
         }
       }
 
-      // Cursor Physics: Attraction vs Repulsion Mechanics
-      if (dist < this.mouse.radius) {
+      // =========================================================================
+      // CURSOR FORCE FIELD: PURE ATTRACTION VS REPULSION VS DUAL POLE
+      // =========================================================================
+      if (dist < this.mouse.radius && dist > 1) {
         const forceFactor = (1 - dist / this.mouse.radius);
 
         if (this.forceType === 'attract') {
-          // Inward Attraction Swirl
-          const attractPull = forceFactor * (this.mouse.isDown ? 7.0 : 3.5);
-          p.vx += (dx / dist) * attractPull;
-          p.vy += (dy / dist) * attractPull;
-          // Orbital rotation
-          p.vx += (-dy / dist) * 1.6;
-          p.vy += (dx / dist) * 1.6;
+          // PURE STRONG INWARD GRAVITATIONAL SUCTION
+          // Gravitational pull is directed STRAIGHT TO CURSOR (dx, dy)
+          const basePull = forceFactor * 14.0 * holdMultiplier;
+          p.vx += (dx / dist) * basePull;
+          p.vy += (dy / dist) * basePull;
+
+          // Add orbital vortex spin so particles create a beautiful galaxy disc around cursor
+          const spinSpeed = 4.0 * holdMultiplier;
+          p.vx += (-dy / dist) * spinSpeed;
+          p.vy += (dx / dist) * spinSpeed;
+
+          // When particle gets very close to cursor (<50px), dampen outward speed so it orbits tightly
+          if (dist < 50) {
+            p.vx *= 0.85;
+            p.vy *= 0.85;
+          }
 
         } else if (this.forceType === 'dual') {
-          // Left side attracts, right side repels (Dual Pole)
+          // Dual Pole: Left attracts, Right repels
           const isLeft = p.x < this.mouse.x;
-          const dualForce = forceFactor * 4.0;
           if (isLeft) {
-            p.vx += (dx / dist) * dualForce;
-            p.vy += (dy / dist) * dualForce;
+            const pull = forceFactor * 12.0 * holdMultiplier;
+            p.vx += (dx / dist) * pull;
+            p.vy += (dy / dist) * pull;
+            p.vx += (-dy / dist) * 3.0;
+            p.vy += (dx / dist) * 3.0;
           } else {
-            p.vx -= (dx / dist) * dualForce;
-            p.vy -= (dy / dist) * dualForce;
+            const push = forceFactor * 14.0 * holdMultiplier;
+            p.vx -= (dx / dist) * push;
+            p.vy -= (dy / dist) * push;
           }
 
         } else {
-          // Default Repulsion
-          const repelForce = forceFactor * (this.mouse.isDown ? 8.0 : 3.5);
+          // Pure Repulsion Shield: pushes AWAY from cursor (-dx, -dy)
+          const repelForce = forceFactor * 16.0 * holdMultiplier;
           p.vx -= (dx / dist) * repelForce;
           p.vy -= (dy / dist) * repelForce;
         }
@@ -318,18 +404,18 @@ class ParticleField {
         const tdy = targetY - p.y;
         const tdist = Math.sqrt(tdx * tdx + tdy * tdy);
 
-        const gravity = Math.min(600 / (tdist * tdist + 200), 2.5);
+        const gravity = Math.min(800 / (tdist * tdist + 120), 4.0);
         p.vx += (tdx / (tdist || 1)) * gravity;
         p.vy += (tdy / (tdist || 1)) * gravity;
-        p.vx += (-tdy / (tdist || 1)) * 1.4;
-        p.vy += (tdx / (tdist || 1)) * 1.4;
+        p.vx += (-tdy / (tdist || 1)) * 2.0;
+        p.vy += (tdx / (tdist || 1)) * 2.0;
 
       } else if (this.mode === 'vortex') {
         p.angle += p.angularSpeed * (1 + audioEnergy * 2);
         const targetX = centerX + Math.cos(p.angle) * p.orbitRadius;
         const targetY = centerY + Math.sin(p.angle) * p.orbitRadius;
-        p.vx += (targetX - p.x) * 0.03;
-        p.vy += (targetY - p.y) * 0.03;
+        p.vx += (targetX - p.x) * 0.04;
+        p.vy += (targetY - p.y) * 0.04;
 
       } else if (this.mode === 'neural') {
         p.x += p.vx;
@@ -337,13 +423,13 @@ class ParticleField {
 
       } else {
         // Ambient drift
-        p.vx += (Math.random() - 0.5) * 0.2;
-        p.vy += (Math.random() - 0.5) * 0.2;
+        p.vx += (Math.random() - 0.5) * 0.15;
+        p.vy += (Math.random() - 0.5) * 0.15;
       }
 
-      // Apply drag / friction
-      p.vx *= 0.94;
-      p.vy *= 0.94;
+      // Apply drag / friction (smooth orbital dampening)
+      p.vx *= 0.92;
+      p.vy *= 0.92;
 
       // Integrate position
       p.x += p.vx;
@@ -389,17 +475,17 @@ class ParticleField {
       this.ctx.save();
       // Outer glow field
       this.ctx.beginPath();
-      this.ctx.arc(beacon.x, beacon.y, beacon.radius + pulseSize + 12, 0, Math.PI * 2);
-      this.ctx.fillStyle = beacon.type === 'attractor' ? 'rgba(168, 85, 247, 0.15)' : 'rgba(0, 243, 255, 0.15)';
+      this.ctx.arc(beacon.x, beacon.y, beacon.radius + pulseSize + 14, 0, Math.PI * 2);
+      this.ctx.fillStyle = beacon.type === 'attractor' ? 'rgba(168, 85, 247, 0.2)' : 'rgba(0, 243, 255, 0.2)';
       this.ctx.fill();
 
       // Orbital boundary ring
       this.ctx.beginPath();
       this.ctx.arc(beacon.x, beacon.y, beacon.radius + pulseSize, 0, Math.PI * 2);
       this.ctx.strokeStyle = beacon.color;
-      this.ctx.lineWidth = 2;
+      this.ctx.lineWidth = 2.5;
       this.ctx.shadowColor = beacon.color;
-      this.ctx.shadowBlur = 18;
+      this.ctx.shadowBlur = 20;
       this.ctx.stroke();
 
       // Core singularity/repulsor dot
@@ -409,23 +495,87 @@ class ParticleField {
       this.ctx.fill();
 
       // Label tag
-      this.ctx.font = '8px "JetBrains Mono", monospace';
+      this.ctx.font = '9px "JetBrains Mono", monospace';
       this.ctx.fillStyle = beacon.color;
       this.ctx.textAlign = 'center';
-      this.ctx.fillText(beacon.type.toUpperCase(), beacon.x, beacon.y + beacon.radius + 20);
+      this.ctx.fillText(beacon.type.toUpperCase(), beacon.x, beacon.y + beacon.radius + 22);
       this.ctx.restore();
     }
 
-    // Draw Shockwaves
+    // Render Active Cursor Force Field Aura & Mega Gravity Well
+    if (this.isPoweredOn && this.mouse.isHovering) {
+      this.ctx.save();
+      const auraColor = this.forceType === 'attract' ? '#a855f7' : (this.forceType === 'dual' ? '#00ff88' : '#00f3ff');
+      const pulse = Math.sin(performance.now() * 0.006) * 10;
+      const holdCharge = this.mouse.isDown ? Math.min((performance.now() - this.mouse.downStartTime) / 1000, 3.0) : 0;
+
+      // Outer Gravitational Field Radius Ring
+      this.ctx.beginPath();
+      this.ctx.arc(this.mouse.x, this.mouse.y, this.mouse.radius + pulse, 0, Math.PI * 2);
+      this.ctx.strokeStyle = auraColor;
+      this.ctx.lineWidth = this.mouse.isDown ? 2.5 : 1;
+      this.ctx.globalAlpha = this.mouse.isDown ? 0.6 : 0.25;
+      this.ctx.shadowColor = auraColor;
+      this.ctx.shadowBlur = 20;
+      this.ctx.stroke();
+      this.ctx.globalAlpha = 1.0;
+
+      // Inner Core Aura Ring
+      this.ctx.beginPath();
+      const coreRadius = 24 + holdCharge * 25 + pulse * 0.5;
+      this.ctx.arc(this.mouse.x, this.mouse.y, coreRadius, 0, Math.PI * 2);
+      this.ctx.strokeStyle = auraColor;
+      this.ctx.lineWidth = this.mouse.isDown ? 4 : 2;
+      this.ctx.shadowColor = auraColor;
+      this.ctx.shadowBlur = 25;
+      this.ctx.stroke();
+
+      // If Attracting & Holding: Draw swirling gravitational vortex spokes
+      if (this.forceType === 'attract' && this.mouse.isDown) {
+        const time = performance.now() * 0.004;
+        for (let k = 0; k < 4; k++) {
+          const angle = time + (k * Math.PI / 2);
+          const startR = coreRadius + 10;
+          const endR = this.mouse.radius * 0.8;
+          this.ctx.beginPath();
+          this.ctx.moveTo(this.mouse.x + Math.cos(angle) * startR, this.mouse.y + Math.sin(angle) * startR);
+          this.ctx.lineTo(this.mouse.x + Math.cos(angle + 0.8) * endR, this.mouse.y + Math.sin(angle + 0.8) * endR);
+          this.ctx.strokeStyle = 'rgba(168, 85, 247, 0.45)';
+          this.ctx.lineWidth = 2;
+          this.ctx.stroke();
+        }
+      }
+
+      // Center Core Dot / Singularity Eye
+      this.ctx.beginPath();
+      this.ctx.arc(this.mouse.x, this.mouse.y, this.mouse.isDown ? 8 : 4, 0, Math.PI * 2);
+      this.ctx.fillStyle = this.mouse.isDown ? '#ffffff' : auraColor;
+      this.ctx.shadowColor = '#ffffff';
+      this.ctx.shadowBlur = 15;
+      this.ctx.fill();
+
+      // Force Mode Label Indicator
+      this.ctx.font = 'bold 11px "Orbitron", sans-serif';
+      this.ctx.fillStyle = auraColor;
+      this.ctx.textAlign = 'center';
+      const labelText = this.forceType === 'attract' 
+        ? (this.mouse.isDown ? '⚡ MEGA ATTRACTION WELL' : '▼ ATTRACT') 
+        : (this.forceType === 'dual' ? '☯ DUAL POLE' : (this.mouse.isDown ? '⚡ MEGA REPULSION' : '▲ REPEL'));
+      this.ctx.fillText(labelText, this.mouse.x, this.mouse.y - (this.mouse.radius + 16));
+      this.ctx.restore();
+    }
+
+    // Draw Shockwaves & Implosions
     for (let s = 0; s < this.shockwaves.length; s++) {
       const sw = this.shockwaves[s];
       this.ctx.save();
       this.ctx.beginPath();
       this.ctx.arc(sw.x, sw.y, sw.radius, 0, Math.PI * 2);
-      this.ctx.strokeStyle = `rgba(0, 243, 255, ${sw.alpha * 0.8})`;
+      const waveColor = sw.type === 'implosion' ? 'rgba(168, 85, 247,' : 'rgba(0, 243, 255,';
+      this.ctx.strokeStyle = `${waveColor} ${sw.alpha * 0.9})`;
       this.ctx.lineWidth = 4 * sw.power;
-      this.ctx.shadowColor = '#00f3ff';
-      this.ctx.shadowBlur = 15;
+      this.ctx.shadowColor = sw.type === 'implosion' ? '#a855f7' : '#00f3ff';
+      this.ctx.shadowBlur = 20;
       this.ctx.stroke();
       this.ctx.restore();
     }

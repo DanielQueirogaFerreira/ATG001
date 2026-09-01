@@ -2,9 +2,9 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <meta name="description" content="QUANTUM NEXUS: The Antigravity Multidimensional Experience - An interactive cyber-luminescent environment showcasing visual, auditory, tactile, and cognitive depth.">
-  <title>QUANTUM NEXUS // Antigravity Multidimensional Environment</title>
+  <title>QUANTUM NEXUS v2.7 // Antigravity Multidimensional Environment</title>
 
   <!-- Google Fonts Preconnect -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -19,26 +19,26 @@
   <!-- Initial Immersive Activation Splash Screen -->
   <div id="splash-overlay" class="splash-modal-overlay">
     <div class="splash-card">
-      <div class="brand-icon-wrapper" style="width: 54px; height: 54px;">
+      <div class="brand-icon-wrapper" style="width: 48px; height: 48px;">
         <div class="brand-icon-halo"></div>
-        <div class="brand-icon-core" style="width: 26px; height: 26px;"></div>
+        <div class="brand-icon-core" style="width: 22px; height: 22px;"></div>
       </div>
-      <h1 class="splash-title">QUANTUM NEXUS</h1>
+      <h1 class="splash-title">QUANTUM NEXUS <span style="font-size: 0.9rem; color: var(--neon-cyan);">v2.7</span></h1>
       <p class="splash-desc">
         Welcome to the Antigravity Multidimensional Experience — a cutting-edge cybernetic environment unifying 
         <strong>Seeable Visuals</strong>, <strong>Auditive Procedural Sound</strong>, <strong>Tactile Physics</strong>, 
         and <strong>Deep Cognitive Intelligence</strong>.
       </p>
       <button id="splash-start-btn" class="splash-start-btn">INITIALIZE EXPERIENCE</button>
-      <div style="font-family: var(--font-mono); font-size: 0.7rem; color: var(--text-muted);">
-        [ Global Reactor Power • Particle Attraction/Repulsion • Web Audio Engine • 60+ FPS ]
+      <div style="font-family: var(--font-mono); font-size: 0.68rem; color: var(--text-muted);">
+        [ Pure Icon Headers • 7-Tool Mobile Dock • Mega Attraction Suction • 60+ FPS ]
       </div>
     </div>
   </div>
 
   <!-- Main System App Container -->
   <main id="app-container">
-    <!-- Visual Simulation Canvas Layer -->
+    <!-- Visual Simulation Canvas Layer (100% Full Screen) -->
     <canvas id="simulation-viewport" aria-label="Interactive Quantum Particle & Field Simulation Canvas"></canvas>
 
     <!-- Holographic Viewport Overlays -->
@@ -46,94 +46,110 @@
     <div class="hud-vignette" aria-hidden="true"></div>
     <div class="hud-scanline" aria-hidden="true"></div>
 
+    <!-- Floating Show Panels Button (Desktop Zen Mode) -->
+    <button id="floating-show-panels-btn" class="floating-show-panels-btn" aria-label="Show HUD Panels">
+      <span>👁️</span>
+    </button>
+
     <!-- Power Offline Standby Center Banner -->
     <div class="power-offline-banner">
       <div>⚠ REACTOR OFFLINE // CRYOGENIC SUSPENSION</div>
       <div style="font-size: 0.65rem; color: var(--text-muted); margin-top: 6px; font-family: var(--font-mono);">
-        PRESS <span class="key-hint">P</span> OR CLICK "REACTOR OFFLINE" TO RESTORE GLOBAL POWER
+        PRESS <span class="key-hint">P</span> OR CLICK "⏻" TO RESTORE GLOBAL POWER
       </div>
     </div>
 
-    <!-- Top HUD Header -->
+    <!-- Top HUD Header (Compact Stacked Logo & Pure Icons) -->
     <header class="hud-header">
+      <!-- Left: Stacked Logo + Version -->
       <div class="hud-brand">
         <div class="brand-icon-wrapper">
           <div class="brand-icon-halo"></div>
           <div class="brand-icon-core"></div>
         </div>
         <div class="brand-title-group">
-          <span class="brand-title">ANTIGRAVITY // NEXUS</span>
-          <span class="brand-subtitle">MULTIDIMENSIONAL SENSORY ENVIRONMENT v2.6</span>
+          <span class="brand-title-top">ANTI</span>
+          <span class="brand-title-bottom">GRAVITY</span>
         </div>
+        <span class="brand-version-badge">v2.7</span>
       </div>
 
-      <!-- Center Sensory Mode Navigation -->
+      <!-- Center: 5-Glyph Sensory Mode Navigation -->
       <nav class="sensory-mode-nav" aria-label="Sensory Modes">
-        <button class="mode-tab-btn active" data-mode="quantum" id="tab-quantum">
-          <span class="tab-icon">✧</span> QUANTUM SWARM
+        <button class="mode-tab-btn active" data-mode="quantum" title="Quantum Swarm" id="tab-quantum">
+          <span class="tab-icon">✧</span>
         </button>
-        <button class="mode-tab-btn" data-mode="singularity" id="tab-singularity">
-          <span class="tab-icon">◎</span> SINGULARITY
+        <button class="mode-tab-btn" data-mode="singularity" title="Singularity" id="tab-singularity">
+          <span class="tab-icon">◎</span>
         </button>
-        <button class="mode-tab-btn" data-mode="neural" id="tab-neural">
-          <span class="tab-icon">Ψ</span> NEURAL LATTICE
+        <button class="mode-tab-btn" data-mode="neural" title="Neural Lattice" id="tab-neural">
+          <span class="tab-icon">Ψ</span>
         </button>
-        <button class="mode-tab-btn" data-mode="vortex" id="tab-vortex">
-          <span class="tab-icon">🌀</span> VORTEX FLOW
+        <button class="mode-tab-btn" data-mode="vortex" title="Vortex Flow" id="tab-vortex">
+          <span class="tab-icon">🌀</span>
         </button>
-        <button class="mode-tab-btn" data-mode="audio" id="tab-audio">
-          <span class="tab-icon">⚡</span> AUDIO RESONANCE
+        <button class="mode-tab-btn" data-mode="audio" title="Audio Resonance" id="tab-audio">
+          <span class="tab-icon">🌊</span>
         </button>
       </nav>
 
-      <!-- Status, Global Power & Audio Deck Controls -->
+      <!-- Right: All 4 Command Bar Controls as Pure Icons (No Text) -->
       <div class="hud-status-group">
-        <!-- Master Power Reactor Switch -->
-        <button id="power-toggle-btn" class="power-toggle-btn" aria-label="Toggle Global Power State">
-          <span>⚡</span> REACTOR ONLINE
+        <!-- Master Power Reactor Switch (Pure Power Icon ⏻) -->
+        <button id="power-toggle-btn" class="power-toggle-btn" title="Toggle Reactor Power (P)">
+          <span class="power-icon">⏻</span>
         </button>
 
-        <div class="status-badge" id="system-status-badge">
+        <!-- Master Panel Show/Hide Toggle (Pure Eye Icon 👁️) -->
+        <button id="panels-toggle-btn" class="panels-toggle-btn" title="Toggle HUD Panels (H/Tab)">
+          <span class="panels-icon">👁️</span>
+        </button>
+
+        <!-- Synchronizer Live Pulse Badge (● Pulse Dot) -->
+        <div class="status-badge" id="system-status-badge" title="System Synchronizer">
           <div class="pulse-dot" id="system-pulse-dot"></div>
-          <span id="system-status-text">SYNCHRONIZED</span>
         </div>
 
-        <button id="audio-toggle-btn" class="audio-toggle-btn" aria-label="Toggle Master Audio">
-          <span>🔊</span> AUDIO ACTIVE
+        <!-- Master Audio Active/Mute Toggle (Pure Speaker Icon 🔊) -->
+        <button id="audio-toggle-btn" class="audio-toggle-btn" title="Toggle Audio (M)">
+          <span id="audio-icon">🔊</span>
         </button>
       </div>
     </header>
 
-    <!-- Main Workspace 3-Column Layout -->
+    <!-- Main Workspace 3-Column Layout (Desktop) -->
     <section class="hud-main-workspace">
       <!-- Left Column: Auditive & Tactile Controllers -->
       <aside class="hud-sidebar-left">
         <!-- 1. Particle Force & Attraction/Repulsion Physics Deck -->
-        <article class="glass-panel glass-panel-cyan">
+        <article class="glass-panel glass-panel-cyan" id="panel-card-force">
           <div class="card-header">
             <h2 class="card-title">
-              <span class="card-title-icon">🧲</span> FORCE FIELD DYNAMICS
+              <span class="card-title-icon">🧲</span> FORCE DYNAMICS
             </h2>
-            <span class="card-badge">TACTILE PHYSICS</span>
+            <div style="display: flex; align-items: center; gap: 6px;">
+              <span class="card-badge">TACTILE</span>
+              <button class="card-collapse-btn" aria-label="Collapse panel">▲</button>
+            </div>
           </div>
           <div class="card-body">
             <!-- Force Mode Selector Pill -->
             <div class="force-switcher-container" aria-label="Particle Force Mode">
-              <button class="force-btn active repel" data-force="repel" id="btn-force-repel">
-                <span>⟵ REPEL ⟶</span>
+              <button class="force-btn active attract" data-force="attract" id="btn-force-attract">
+                <span>⟶ ATTRACT</span>
               </button>
-              <button class="force-btn" data-force="attract" id="btn-force-attract">
-                <span>⟶ ATTRACT ⟵</span>
+              <button class="force-btn" data-force="repel" id="btn-force-repel">
+                <span>⟵ REPEL</span>
               </button>
               <button class="force-btn" data-force="dual" id="btn-force-dual">
-                <span>☯ DUAL POLE</span>
+                <span>☯ DUAL</span>
               </button>
             </div>
 
             <!-- Persistent Gravitational Beacons Toolbar -->
             <div style="margin-top: 4px;">
-              <div style="font-family: var(--font-mono); font-size: 0.65rem; color: var(--text-muted); margin-bottom: 6px;">
-                GRAVITATIONAL BEACONS [RIGHT-CLICK OR ADD]:
+              <div style="font-family: var(--font-mono); font-size: 0.62rem; color: var(--text-muted); margin-bottom: 4px;">
+                BEACONS [RIGHT-CLICK / TAP]:
               </div>
               <div class="beacon-toolbar">
                 <button id="add-attractor-btn" class="beacon-tool-btn attractor-btn">
@@ -151,12 +167,15 @@
         </article>
 
         <!-- 2. Sound Matrix Sequencer Card -->
-        <article class="glass-panel glass-panel-cyan">
+        <article class="glass-panel glass-panel-cyan" id="panel-card-sound">
           <div class="card-header">
             <h2 class="card-title">
-              <span class="card-title-icon">♪</span> 16-STEP SOUND MATRIX
+              <span class="card-title-icon">♪</span> 16-STEP MATRIX
             </h2>
-            <span class="card-badge">POLYPHONIC</span>
+            <div style="display: flex; align-items: center; gap: 6px;">
+              <span class="card-badge">POLYPHONIC</span>
+              <button class="card-collapse-btn" aria-label="Collapse panel">▲</button>
+            </div>
           </div>
           <div class="card-body">
             <div class="sequencer-controls">
@@ -185,17 +204,20 @@
         </article>
 
         <!-- 3. Tactile Continuous Theremin Ribbon Pad -->
-        <article class="glass-panel glass-panel-purple">
+        <article class="glass-panel glass-panel-purple" id="panel-card-theremin">
           <div class="card-header">
             <h2 class="card-title">
-              <span class="card-title-icon">≋</span> CONTINUOUS XY THEREMIN
+              <span class="card-title-icon">≋</span> XY THEREMIN
             </h2>
-            <span class="card-badge">TACTILE SENSORY</span>
+            <div style="display: flex; align-items: center; gap: 6px;">
+              <span class="card-badge">SENSORY</span>
+              <button class="card-collapse-btn" aria-label="Collapse panel">▲</button>
+            </div>
           </div>
           <div class="card-body">
             <div id="theremin-pad-root" class="theremin-pad-wrapper">
               <div class="theremin-crosshair"></div>
-              <div class="theremin-hint">DRAG CURSOR ACROSS PAD<br><span style="color: var(--neon-cyan); font-size: 0.6rem;">[ X: Pitch Glide • Y: Filter Resonance ]</span></div>
+              <div class="theremin-hint">DRAG / TOUCH PAD<br><span style="color: var(--neon-cyan); font-size: 0.6rem;">[ X: Pitch Glide • Y: Filter Resonance ]</span></div>
             </div>
             <div style="display: flex; gap: 8px;">
               <button id="soundscape-toggle-btn" class="btn-action-primary" style="flex: 1;">
@@ -206,12 +228,15 @@
         </article>
 
         <!-- 4. Real-Time Audio Frequency Spectrum -->
-        <article class="glass-panel">
+        <article class="glass-panel" id="panel-card-fft">
           <div class="card-header">
             <h2 class="card-title">
-              <span class="card-title-icon">📊</span> FFT SPECTRUM ANALYZER
+              <span class="card-title-icon">📊</span> FFT SPECTRUM
             </h2>
-            <span class="card-badge">REAL-TIME</span>
+            <div style="display: flex; align-items: center; gap: 6px;">
+              <span class="card-badge">REAL-TIME</span>
+              <button class="card-collapse-btn" aria-label="Collapse panel">▲</button>
+            </div>
           </div>
           <div class="card-body">
             <div class="visualizer-canvas-container">
@@ -224,7 +249,7 @@
       <!-- Center Viewport Overlay (HUD Direct Interaction Prompts) -->
       <div class="hud-center-stage">
         <div class="hud-canvas-prompt">
-          [ CLICK & DRAG: FORCE FIELD • RIGHT-CLICK: DROP BEACON • P: POWER TOGGLE • A/R: ATTRACT/REPEL ]
+          [ TOUCH & HOLD: MEGA ATTRACTION WELL • DRAG: GRAVITATIONAL VORTEX ]
         </div>
         <div></div>
       </div>
@@ -232,12 +257,15 @@
       <!-- Right Column: Cognitive Depth & Agent Swarm Matrix -->
       <aside class="hud-sidebar-right">
         <!-- 1. Autonomous Multi-Agent Swarm Matrix -->
-        <article class="glass-panel glass-panel-emerald">
+        <article class="glass-panel glass-panel-emerald" id="panel-card-agents">
           <div class="card-header">
             <h2 class="card-title">
-              <span class="card-title-icon">Ω</span> AGENT SWARM MATRIX
+              <span class="card-title-icon">Ω</span> AGENT SWARM
             </h2>
-            <span class="card-badge">COGNITIVE SWARM</span>
+            <div style="display: flex; align-items: center; gap: 6px;">
+              <span class="card-badge">COGNITIVE</span>
+              <button class="card-collapse-btn" aria-label="Collapse panel">▲</button>
+            </div>
           </div>
           <div class="card-body">
             <div id="agent-swarm-root" class="agent-swarm-list"></div>
@@ -245,12 +273,15 @@
         </article>
 
         <!-- 2. Tree-of-Thought Reasoning Visualizer -->
-        <article class="glass-panel">
+        <article class="glass-panel" id="panel-card-tot">
           <div class="card-header">
             <h2 class="card-title">
-              <span class="card-title-icon">🌿</span> TREE-OF-THOUGHT ENGINE
+              <span class="card-title-icon">🌿</span> TREE OF THOUGHT
             </h2>
-            <span class="card-badge">AUTONOMOUS REASONING</span>
+            <div style="display: flex; align-items: center; gap: 6px;">
+              <span class="card-badge">REASONING</span>
+              <button class="card-collapse-btn" aria-label="Collapse panel">▲</button>
+            </div>
           </div>
           <div class="card-body">
             <div id="tot-container-root" class="tot-container"></div>
@@ -258,25 +289,28 @@
         </article>
 
         <!-- 3. Algorithmic Code Weaver & Math Sandbox -->
-        <article class="glass-panel">
+        <article class="glass-panel" id="panel-card-code">
           <div class="card-header">
             <h2 class="card-title">
-              <span class="card-title-icon">💻</span> GENERATIVE CODE WEAVER
+              <span class="card-title-icon">💻</span> CODE WEAVER
             </h2>
-            <button id="cycle-code-btn" class="btn-action-secondary" style="padding: 2px 8px; font-size: 0.65rem;">CYCLE ALGORITHM</button>
+            <div style="display: flex; align-items: center; gap: 6px;">
+              <button id="cycle-code-btn" class="btn-action-secondary" style="padding: 2px 6px; font-size: 0.62rem;">CYCLE</button>
+              <button class="card-collapse-btn" aria-label="Collapse panel">▲</button>
+            </div>
           </div>
           <div class="card-body">
             <div id="code-weaver-output" class="code-weaver-box"></div>
             <div class="control-row" style="margin-top: 4px;">
-              <span class="control-label">Particle Density:</span>
-              <input type="range" id="particle-count-slider" class="quantum-slider" min="400" max="2500" step="100" value="1200">
+              <span class="control-label">Density:</span>
+              <input type="range" id="particle-count-slider" class="quantum-slider" min="300" max="2000" step="100" value="1000">
             </div>
           </div>
         </article>
       </aside>
     </section>
 
-    <!-- Bottom Telemetry HUD Bar -->
+    <!-- Bottom Telemetry HUD Bar (Desktop) -->
     <footer class="hud-footer">
       <div class="telemetry-metrics">
         <div class="metric-item">
@@ -285,25 +319,92 @@
         </div>
         <div class="metric-item">
           <span class="metric-label">PARTICLES:</span>
-          <span id="particles-metric-val" class="metric-value">1200</span>
+          <span id="particles-metric-val" class="metric-value">1000</span>
         </div>
         <div class="metric-item">
-          <span class="metric-label">AUDIO ENERGY:</span>
+          <span class="metric-label">ENERGY:</span>
           <span id="energy-metric-val" class="metric-value">0%</span>
         </div>
         <div class="metric-item">
-          <span class="metric-label">COGNITIVE STATE:</span>
+          <span class="metric-label">STATE:</span>
           <span id="state-metric-val" class="metric-value" style="color: var(--neon-purple);">NEURAL_OVERCLOCK</span>
+        </div>
+        <div class="metric-item">
+          <span class="metric-label">BUILD:</span>
+          <span class="metric-value" style="color: var(--neon-cyan);">v2.7</span>
         </div>
       </div>
 
       <div class="action-hints">
+        <span><span class="key-hint">H</span> Panels</span>
+        <span><span class="key-hint">A/R/D</span> Forces</span>
         <span><span class="key-hint">P</span> Power</span>
-        <span><span class="key-hint">A/R</span> Attract / Repel</span>
-        <span><span class="key-hint">B</span> Beacon</span>
-        <span><span class="key-hint">1-5</span> Modes</span>
+        <span><span class="key-hint">B/C</span> Beacons</span>
       </div>
     </footer>
+
+    <!-- =========================================================================
+         MOBILE SMARTPHONE DEDICATED 7-TOOL ICON DOCK & DRAWER SYSTEM
+         ========================================================================= -->
+    <!-- Mobile Backdrop -->
+    <div id="mobile-backdrop" class="mobile-backdrop"></div>
+
+    <!-- Floating Mobile Bottom Dock Bar -->
+    <div class="mobile-bottom-dock">
+      <!-- Quick Force Buttons Row on Mobile -->
+      <div class="mobile-dock-forces">
+        <button class="force-btn active attract mobile-force-btn" data-force="attract">
+          <span>⟶ ATTRACT</span>
+        </button>
+        <button class="force-btn mobile-force-btn" data-force="repel">
+          <span>⟵ REPEL</span>
+        </button>
+        <button class="force-btn mobile-force-btn" data-force="dual">
+          <span>☯ DUAL</span>
+        </button>
+      </div>
+
+      <!-- 7 Mobile Tool Launcher Icon Tabs (Zero Horizontal Scrolling) -->
+      <div class="mobile-dock-tabs">
+        <button class="mobile-tab-btn" data-target="panel-card-force" title="Force Field">
+          <span class="mobile-tab-icon">🧲</span>
+          <span class="mobile-tab-label">Force</span>
+        </button>
+        <button class="mobile-tab-btn" data-target="panel-card-sound" title="Sound Matrix">
+          <span class="mobile-tab-icon">♪</span>
+          <span class="mobile-tab-label">Matrix</span>
+        </button>
+        <button class="mobile-tab-btn" data-target="panel-card-theremin" title="XY Theremin">
+          <span class="mobile-tab-icon">≋</span>
+          <span class="mobile-tab-label">Theremin</span>
+        </button>
+        <button class="mobile-tab-btn" data-target="panel-card-agents" title="Agent Swarm">
+          <span class="mobile-tab-icon">Ω</span>
+          <span class="mobile-tab-label">Swarm</span>
+        </button>
+        <button class="mobile-tab-btn" data-target="panel-card-tot" title="Tree of Thought">
+          <span class="mobile-tab-icon">🌿</span>
+          <span class="mobile-tab-label">Reason</span>
+        </button>
+        <button class="mobile-tab-btn" data-target="panel-card-code" title="Code Weaver">
+          <span class="mobile-tab-icon">💻</span>
+          <span class="mobile-tab-label">Code</span>
+        </button>
+        <button class="mobile-tab-btn" data-target="panel-card-fft" title="FFT Spectrum">
+          <span class="mobile-tab-icon">📊</span>
+          <span class="mobile-tab-label">FFT</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Sliding Bottom Sheet Drawer for Mobile Tool Cards -->
+    <div id="mobile-drawer-sheet" class="mobile-drawer-sheet">
+      <div class="mobile-drawer-header">
+        <span id="mobile-drawer-title" class="mobile-drawer-title">TOOL PANEL</span>
+        <button id="mobile-drawer-close" class="mobile-drawer-close">✕ CLOSE</button>
+      </div>
+      <div id="mobile-drawer-content" class="mobile-drawer-content"></div>
+    </div>
   </main>
 
   <!-- Application Subsystem Scripts -->

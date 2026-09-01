@@ -1,6 +1,6 @@
 /* ==========================================================================
    QUANTUM NEXUS HUD & LAYOUT SYSTEM
-   Futuristic Cyberpunk Interface Framing & Telemetry Overlays
+   Futuristic Cyberpunk Interface Framing, Pure Icon Compact Controls
    ========================================================================== */
 
 #app-container {
@@ -70,77 +70,98 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 12px 24px;
-  background: linear-gradient(180deg, rgba(7, 13, 29, 0.85) 0%, rgba(7, 13, 29, 0.2) 100%);
+  padding: 6px 10px;
+  background: linear-gradient(180deg, rgba(7, 13, 29, 0.96) 0%, rgba(7, 13, 29, 0.6) 100%);
   border-bottom: 1px solid var(--border-subtle);
-  backdrop-filter: blur(12px);
+  backdrop-filter: blur(14px);
+  gap: 6px;
+  flex-wrap: nowrap;
+  min-height: 44px;
+  box-sizing: border-box;
 }
 
+/* Compact Stacked Brand Logo with Version Badge */
 .hud-brand {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 5px;
+  flex-shrink: 0;
 }
 
 .brand-icon-wrapper {
   position: relative;
-  width: 38px;
-  height: 38px;
+  width: 22px;
+  height: 22px;
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-shrink: 0;
 }
 
 .brand-icon-halo {
   position: absolute;
   width: 100%;
   height: 100%;
-  border: 2px dashed var(--neon-cyan);
+  border: 1.5px dashed var(--neon-cyan);
   border-radius: var(--radius-full);
   animation: radarSweep 10s linear infinite;
 }
 
 .brand-icon-core {
-  width: 18px;
-  height: 18px;
+  width: 9px;
+  height: 9px;
   background: var(--neon-cyan);
   border-radius: var(--radius-full);
-  box-shadow: 0 0 15px var(--neon-cyan);
+  box-shadow: 0 0 8px var(--neon-cyan);
   animation: pulseGlow 2.5s infinite;
 }
 
 .brand-title-group {
   display: flex;
   flex-direction: column;
+  line-height: 0.9;
 }
 
-.brand-title {
+.brand-title-top {
   font-family: var(--font-display);
-  font-size: 1.25rem;
+  font-size: 0.68rem;
   font-weight: 900;
-  letter-spacing: 3px;
-  background: linear-gradient(90deg, #ffffff, var(--neon-cyan), var(--neon-purple));
+  letter-spacing: 1.2px;
+  color: #ffffff;
+}
+
+.brand-title-bottom {
+  font-family: var(--font-display);
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.8px;
+  background: linear-gradient(90deg, var(--neon-cyan), var(--neon-purple));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  text-shadow: 0 0 20px rgba(0, 243, 255, 0.4);
 }
 
-.brand-subtitle {
+.brand-version-badge {
   font-family: var(--font-mono);
-  font-size: 0.65rem;
-  letter-spacing: 2px;
+  font-size: 0.52rem;
+  font-weight: 700;
+  padding: 1px 3px;
+  border-radius: var(--radius-xs);
+  background: rgba(0, 243, 255, 0.12);
+  border: 1px solid rgba(0, 243, 255, 0.3);
   color: var(--neon-cyan);
-  opacity: 0.85;
+  align-self: center;
 }
 
-/* Sensory Mode Navigation Tabs */
+/* Sensory Mode Navigation Tabs (Icon-Driven 5 Glyphs) */
 .sensory-mode-nav {
   display: flex;
-  gap: 8px;
-  background: rgba(13, 22, 44, 0.6);
-  padding: 4px;
+  gap: 3px;
+  background: rgba(13, 22, 44, 0.65);
+  padding: 2px 3px;
   border-radius: var(--radius-lg);
   border: 1px solid var(--border-subtle);
+  align-items: center;
+  flex-shrink: 0;
 }
 
 .mode-tab-btn {
@@ -148,20 +169,23 @@
   border: 1px solid transparent;
   color: var(--text-secondary);
   font-family: var(--font-display);
-  font-size: 0.75rem;
-  font-weight: 600;
-  letter-spacing: 1px;
-  padding: 8px 16px;
-  border-radius: var(--radius-md);
+  font-size: 0.82rem;
+  font-weight: 700;
+  padding: 4px 6px;
+  border-radius: var(--radius-sm);
   cursor: pointer;
   display: flex;
   align-items: center;
-  gap: 8px;
+  justify-content: center;
   transition: all var(--transition-smooth);
 }
 
 .mode-tab-btn .tab-icon {
-  font-size: 0.9rem;
+  font-size: 0.85rem;
+}
+
+.mode-tab-btn .tab-text {
+  display: none; /* Icon-only across both mobile and compact headers */
 }
 
 .mode-tab-btn:hover {
@@ -174,62 +198,85 @@
   color: #ffffff;
   background: linear-gradient(135deg, rgba(0, 243, 255, 0.25) 0%, rgba(168, 85, 247, 0.25) 100%);
   border-color: var(--neon-cyan);
-  box-shadow: 0 0 15px rgba(0, 243, 255, 0.3);
+  box-shadow: 0 0 10px rgba(0, 243, 255, 0.3);
 }
 
-/* System State HUD Info */
+/* Top Command Bar Controls - Pure Icon Badges */
 .hud-status-group {
   display: flex;
   align-items: center;
-  gap: 12px;
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
+  gap: 4px;
+  flex-shrink: 0;
 }
 
-/* Master Power Core Toggle Button */
+/* Master Power Core Toggle Button (Pure Icon) */
 .power-toggle-btn {
   background: rgba(0, 255, 136, 0.15);
   border: 1px solid var(--neon-emerald);
   color: var(--neon-emerald);
-  font-family: var(--font-display);
-  font-size: 0.72rem;
-  font-weight: 800;
-  letter-spacing: 1.5px;
-  padding: 8px 14px;
-  border-radius: var(--radius-md);
+  font-size: 0.82rem;
+  padding: 4px 7px;
+  border-radius: var(--radius-sm);
   cursor: pointer;
   display: flex;
   align-items: center;
-  gap: 8px;
-  box-shadow: 0 0 15px rgba(0, 255, 136, 0.2);
+  justify-content: center;
+  box-shadow: 0 0 10px rgba(0, 255, 136, 0.2);
   transition: all var(--transition-smooth);
 }
 
 .power-toggle-btn:hover {
   background: var(--neon-emerald);
   color: var(--bg-deep-void);
-  box-shadow: 0 0 25px var(--neon-emerald);
-  transform: translateY(-1px);
+  box-shadow: 0 0 16px var(--neon-emerald);
 }
 
 .power-toggle-btn.offline {
-  background: rgba(255, 0, 127, 0.12);
+  background: rgba(255, 0, 127, 0.15);
   border-color: var(--neon-pink);
   color: var(--neon-pink);
-  box-shadow: 0 0 12px rgba(255, 0, 127, 0.2);
+  box-shadow: 0 0 10px rgba(255, 0, 127, 0.2);
 }
 
 .power-toggle-btn.offline:hover {
   background: var(--neon-pink);
   color: #ffffff;
-  box-shadow: 0 0 25px var(--neon-pink);
+  box-shadow: 0 0 16px var(--neon-pink);
 }
 
+/* Panels Toggle Button (Pure Icon) */
+.panels-toggle-btn {
+  background: rgba(168, 85, 247, 0.15);
+  border: 1px solid var(--neon-purple);
+  color: var(--neon-purple);
+  font-size: 0.82rem;
+  padding: 4px 6px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition-smooth);
+}
+
+.panels-toggle-btn:hover {
+  background: var(--neon-purple);
+  color: #ffffff;
+  box-shadow: 0 0 14px var(--neon-purple);
+}
+
+.panels-toggle-btn.hidden-mode {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: var(--text-muted);
+  color: var(--text-muted);
+}
+
+/* Synchronizer Badge (Pure Pulse Dot Icon) */
 .status-badge {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 6px 12px;
+  justify-content: center;
+  padding: 6px 7px;
   border-radius: var(--radius-full);
   background: rgba(0, 255, 136, 0.1);
   border: 1px solid rgba(0, 255, 136, 0.3);
@@ -239,55 +286,56 @@
 .status-badge.offline {
   background: rgba(255, 183, 3, 0.1);
   border-color: rgba(255, 183, 3, 0.3);
-  color: var(--neon-amber);
 }
 
 .pulse-dot {
-  width: 8px;
-  height: 8px;
+  width: 7px;
+  height: 7px;
   border-radius: 50%;
   background: var(--neon-emerald);
-  box-shadow: 0 0 8px var(--neon-emerald);
+  box-shadow: 0 0 7px var(--neon-emerald);
   animation: pulseGlow 1.5s infinite;
 }
 
 .pulse-dot.offline {
   background: var(--neon-amber);
-  box-shadow: 0 0 8px var(--neon-amber);
+  box-shadow: 0 0 7px var(--neon-amber);
 }
 
+/* Master Audio Button (Pure Icon) */
 .audio-toggle-btn {
   background: rgba(0, 243, 255, 0.15);
   border: 1px solid var(--neon-cyan);
   color: var(--neon-cyan);
-  font-family: var(--font-display);
-  font-size: 0.72rem;
-  padding: 8px 12px;
-  border-radius: var(--radius-md);
+  font-size: 0.82rem;
+  padding: 4px 7px;
+  border-radius: var(--radius-sm);
   cursor: pointer;
   display: flex;
   align-items: center;
-  gap: 6px;
+  justify-content: center;
+  box-shadow: 0 0 10px rgba(0, 243, 255, 0.25);
   transition: all var(--transition-smooth);
 }
 
 .audio-toggle-btn:hover {
   background: var(--neon-cyan);
   color: var(--bg-deep-void);
-  box-shadow: 0 0 20px var(--neon-cyan);
+  box-shadow: 0 0 16px var(--neon-cyan);
 }
 
 .audio-toggle-btn.muted {
   border-color: var(--text-muted);
   color: var(--text-muted);
   background: rgba(255, 255, 255, 0.05);
+  box-shadow: none;
 }
 
 /* ==========================================================================
    GLOBAL POWER OFFLINE STYLING & CRT SHUTDOWN
    ========================================================================== */
 #app-container.power-offline .hud-main-workspace {
-  filter: grayscale(0.85) brightness(0.4);
+  filter: grayscale(0.85) brightness(0.35);
   pointer-events: none;
   transition: filter 0.8s ease;
 }
@@ -312,15 +360,15 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background: rgba(7, 13, 29, 0.88);
+  background: rgba(7, 13, 29, 0.92);
   border: 1px solid var(--neon-amber);
   box-shadow: 0 0 35px rgba(255, 183, 3, 0.25);
-  padding: 16px 36px;
+  padding: 16px 32px;
   border-radius: var(--radius-md);
   text-align: center;
   font-family: var(--font-display);
-  font-size: 1.1rem;
-  letter-spacing: 3px;
+  font-size: 0.95rem;
+  letter-spacing: 2px;
   color: var(--neon-amber);
   z-index: 50;
   display: none;
@@ -332,35 +380,66 @@
   display: block;
 }
 
+/* ==========================================================================
+   PANELS TOGGLE HIDE/SHOW LOGIC (Desktop)
+   ========================================================================== */
+#app-container.panels-hidden .hud-sidebar-left,
+#app-container.panels-hidden .hud-sidebar-right {
+  opacity: 0;
+  pointer-events: none;
+  transform: scale(0.96);
+}
+
+.floating-show-panels-btn {
+  position: fixed;
+  bottom: 50px;
+  right: 18px;
+  z-index: 100;
+  background: rgba(13, 22, 44, 0.88);
+  border: 1px solid var(--neon-cyan);
+  color: var(--neon-cyan);
+  font-family: var(--font-display);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  padding: 8px 14px;
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  box-shadow: 0 0 20px rgba(0, 243, 255, 0.3);
+  display: none;
+  backdrop-filter: blur(10px);
+}
+
+#app-container.panels-hidden .floating-show-panels-btn {
+  display: block;
+}
+
 /* Main Workspace HUD Area */
 .hud-main-workspace {
   position: relative;
   z-index: 5;
   flex: 1;
   display: grid;
-  grid-template-columns: 340px 1fr 360px;
-  gap: 16px;
-  padding: 16px 20px;
-  pointer-events: none; /* Let canvas capture interactions by default */
+  grid-template-columns: 310px 1fr 320px;
+  gap: 10px;
+  padding: 8px 14px;
+  pointer-events: none;
+  min-height: 0;
 }
 
 .hud-sidebar-left,
-.hud-sidebar-right,
-.hud-bottom-bar,
-.interactive-overlay {
-  pointer-events: auto; /* Re-enable pointer events on controls */
-}
-
-/* Left Sidebar - Cognitive & Audio Engine Control */
-.hud-sidebar-left {
+.hud-sidebar-right {
+  pointer-events: auto;
   display: flex;
   flex-direction: column;
-  gap: 14px;
-  max-height: calc(100vh - 120px);
+  gap: 8px;
+  max-height: calc(100vh - 110px);
   overflow-y: auto;
+  padding-right: 4px;
+  transition: all var(--transition-smooth);
 }
 
-/* Center Stage Viewport Overlay - Info & Direct Touches */
+/* Center Stage Viewport Overlay */
 .hud-center-stage {
   position: relative;
   display: flex;
@@ -370,26 +449,18 @@
 }
 
 .hud-canvas-prompt {
-  background: rgba(7, 13, 29, 0.65);
+  background: rgba(7, 13, 29, 0.75);
   backdrop-filter: blur(8px);
-  border: 1px solid rgba(0, 243, 255, 0.2);
-  padding: 8px 20px;
+  border: 1px solid rgba(0, 243, 255, 0.25);
+  padding: 5px 14px;
   border-radius: var(--radius-full);
   font-family: var(--font-mono);
-  font-size: 0.75rem;
+  font-size: 0.65rem;
   color: var(--neon-cyan);
   letter-spacing: 1px;
   pointer-events: none;
   animation: floatGentle 4s ease-in-out infinite;
-}
-
-/* Right Sidebar - Neural Matrix & Multidimensional Telemetry */
-.hud-sidebar-right {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-  max-height: calc(100vh - 120px);
-  overflow-y: auto;
+  text-align: center;
 }
 
 /* HUD Footer Telemetry Bar */
@@ -399,23 +470,26 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px 24px;
-  background: rgba(7, 13, 29, 0.9);
+  padding: 5px 16px;
+  background: rgba(7, 13, 29, 0.94);
   border-top: 1px solid var(--border-subtle);
   backdrop-filter: blur(12px);
   font-family: var(--font-mono);
-  font-size: 0.72rem;
+  font-size: 0.65rem;
+  flex-wrap: wrap;
+  gap: 6px;
 }
 
 .telemetry-metrics {
   display: flex;
-  gap: 20px;
+  gap: 12px;
+  flex-wrap: wrap;
 }
 
 .metric-item {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 4px;
 }
 
 .metric-label {
@@ -429,16 +503,273 @@
 
 .action-hints {
   display: flex;
-  gap: 16px;
+  gap: 10px;
   color: var(--text-secondary);
+  flex-wrap: wrap;
 }
 
 .key-hint {
   display: inline-block;
-  padding: 2px 6px;
+  padding: 1px 4px;
   background: rgba(255, 255, 255, 0.08);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-xs);
   color: var(--text-primary);
   font-weight: bold;
+}
+
+/* ==========================================================================
+   MOBILE SMARTPHONE DEDICATED ICON BOTTOM DOCK & DRAWER SYSTEM
+   ========================================================================== */
+.mobile-bottom-dock {
+  display: none;
+}
+
+.mobile-drawer-sheet {
+  display: none;
+}
+
+.mobile-backdrop {
+  display: none;
+}
+
+@media (max-width: 900px) {
+  /* On mobile: Hide heavy sidebars so canvas is 100% visible */
+  .hud-sidebar-left,
+  .hud-sidebar-right {
+    display: none !important;
+  }
+
+  .hud-main-workspace {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding: 4px;
+    height: calc(100vh - 100px);
+  }
+
+  .hud-header {
+    padding: 4px 6px;
+    gap: 3px;
+  }
+
+  .brand-title-top {
+    font-size: 0.6rem;
+  }
+
+  .brand-title-bottom {
+    font-size: 0.55rem;
+  }
+
+  .brand-version-badge {
+    font-size: 0.48rem;
+    padding: 1px 2px;
+  }
+
+  /* Compact pure-icon sensory mode buttons on mobile */
+  .sensory-mode-nav {
+    display: flex;
+    gap: 2px;
+    padding: 2px;
+    flex-shrink: 0;
+  }
+
+  .mode-tab-btn {
+    padding: 3px 4px;
+    font-size: 0.78rem;
+  }
+
+  .hud-status-group {
+    gap: 2px;
+  }
+
+  .power-toggle-btn {
+    padding: 3px 4px;
+    font-size: 0.75rem;
+  }
+
+  .panels-toggle-btn {
+    padding: 3px 4px;
+    font-size: 0.75rem;
+  }
+
+  .status-badge {
+    padding: 5px;
+  }
+
+  .audio-toggle-btn {
+    padding: 3px 4px;
+    font-size: 0.75rem;
+  }
+
+  .hud-canvas-prompt {
+    font-size: 0.58rem;
+    padding: 4px 8px;
+    margin-top: 4px;
+    width: 94%;
+  }
+
+  .hud-footer {
+    display: none;
+  }
+
+  /* Floating Mobile Bottom Dock */
+  .mobile-bottom-dock {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100vw;
+    z-index: 90;
+    display: flex;
+    flex-direction: column;
+    background: rgba(7, 13, 29, 0.94);
+    border-top: 1px solid var(--border-glass);
+    backdrop-filter: blur(16px);
+    padding: 5px 6px 8px;
+    gap: 5px;
+  }
+
+  .mobile-dock-forces {
+    display: flex;
+    gap: 4px;
+    width: 100%;
+  }
+
+  .mobile-dock-forces .force-btn {
+    padding: 5px 3px;
+    font-size: 0.62rem;
+    flex: 1;
+  }
+
+  /* 7-Tool Icon Bar: Perfectly distributed across screen width without scroll */
+  .mobile-dock-tabs {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+    gap: 2px;
+  }
+
+  .mobile-tab-btn {
+    background: rgba(13, 22, 44, 0.7);
+    border: 1px solid var(--border-subtle);
+    color: var(--text-secondary);
+    font-family: var(--font-display);
+    font-size: 0.6rem;
+    font-weight: 700;
+    padding: 4px 2px;
+    border-radius: var(--radius-xs);
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    flex: 1;
+    min-width: 0;
+    transition: all var(--transition-fast);
+  }
+
+  .mobile-tab-btn .mobile-tab-icon {
+    font-size: 0.85rem;
+  }
+
+  .mobile-tab-btn .mobile-tab-label {
+    font-size: 0.5rem;
+    font-family: var(--font-mono);
+    letter-spacing: 0px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .mobile-tab-btn:hover,
+  .mobile-tab-btn.active {
+    border-color: var(--neon-cyan);
+    color: #ffffff;
+    background: rgba(0, 243, 255, 0.22);
+    box-shadow: 0 0 10px rgba(0, 243, 255, 0.3);
+  }
+
+  /* Sliding Bottom Sheet Drawer for Mobile Tools */
+  .mobile-drawer-sheet {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100vw;
+    max-height: 70vh;
+    background: rgba(10, 20, 42, 0.96);
+    border-top: 2px solid var(--neon-cyan);
+    box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.85);
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    backdrop-filter: blur(20px);
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    transform: translateY(105%);
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    overflow: hidden;
+  }
+
+  .mobile-drawer-sheet.open {
+    transform: translateY(0);
+  }
+
+  .mobile-drawer-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 14px;
+    border-bottom: 1px solid var(--border-subtle);
+    background: rgba(7, 13, 29, 0.85);
+  }
+
+  .mobile-drawer-title {
+    font-family: var(--font-display);
+    font-size: 0.78rem;
+    font-weight: 800;
+    color: var(--neon-cyan);
+    letter-spacing: 1px;
+  }
+
+  .mobile-drawer-close {
+    background: rgba(255, 0, 127, 0.2);
+    border: 1px solid var(--neon-pink);
+    color: var(--neon-pink);
+    border-radius: var(--radius-xs);
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    padding: 3px 8px;
+    cursor: pointer;
+  }
+
+  .mobile-drawer-content {
+    padding: 12px;
+    overflow-y: auto;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  /* Semi-transparent Backdrop for Drawer */
+  .mobile-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(3, 7, 18, 0.65);
+    backdrop-filter: blur(4px);
+    z-index: 95;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+
+  .mobile-backdrop.open {
+    display: block;
+    opacity: 1;
+    pointer-events: auto;
+  }
 }

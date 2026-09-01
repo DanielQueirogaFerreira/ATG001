@@ -79,10 +79,10 @@ class ModalController {
     if (this.audioToggleBtn) {
       if (isMuted) {
         this.audioToggleBtn.classList.add('muted');
-        this.audioToggleBtn.innerHTML = '<span>🔇</span> AUDIO MUTED';
+        this.audioToggleBtn.innerHTML = '<span id="audio-icon">🔇</span>';
       } else {
         this.audioToggleBtn.classList.remove('muted');
-        this.audioToggleBtn.innerHTML = '<span>🔊</span> AUDIO ACTIVE';
+        this.audioToggleBtn.innerHTML = '<span id="audio-icon">🔊</span>';
       }
     }
   }
