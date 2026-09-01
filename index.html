@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="QUANTUM NEXUS: The Antigravity Multidimensional Experience - An interactive cyber-luminescent environment showcasing visual, auditory, tactile, and cognitive depth.">
+  <title>QUANTUM NEXUS // Antigravity Multidimensional Environment</title>
+
+  <!-- Google Fonts Preconnect -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="css/design-system.css">
+  <link rel="stylesheet" href="css/hud.css">
+  <link rel="stylesheet" href="css/components.css">
+</head>
+<body>
+  <!-- Initial Immersive Activation Splash Screen -->
+  <div id="splash-overlay" class="splash-modal-overlay">
+    <div class="splash-card">
+      <div class="brand-icon-wrapper" style="width: 54px; height: 54px;">
+        <div class="brand-icon-halo"></div>
+        <div class="brand-icon-core" style="width: 26px; height: 26px;"></div>
+      </div>
+      <h1 class="splash-title">QUANTUM NEXUS</h1>
+      <p class="splash-desc">
+        Welcome to the Antigravity Multidimensional Experience — a cutting-edge cybernetic environment unifying 
+        <strong>Seeable Visuals</strong>, <strong>Auditive Procedural Sound</strong>, <strong>Tactile Physics</strong>, 
+        and <strong>Deep Cognitive Intelligence</strong>.
+      </p>
+      <button id="splash-start-btn" class="splash-start-btn" id="btn-enter-system">INITIALIZE EXPERIENCE</button>
+      <div style="font-family: var(--font-mono); font-size: 0.7rem; color: var(--text-muted);">
+        [ Web Audio Engine • 60+ FPS Quantum Particles • Autonomous Agent Matrix ]
+      </div>
+    </div>
+  </div>
+
+  <!-- Main System App Container -->
+  <main id="app-container">
+    <!-- Visual Simulation Canvas Layer -->
+    <canvas id="simulation-viewport" aria-label="Interactive Quantum Particle & Field Simulation Canvas"></canvas>
+
+    <!-- Holographic Viewport Overlays -->
+    <div class="hud-grid-overlay" aria-hidden="true"></div>
+    <div class="hud-vignette" aria-hidden="true"></div>
+    <div class="hud-scanline" aria-hidden="true"></div>
+
+    <!-- Top HUD Header -->
+    <header class="hud-header">
+      <div class="hud-brand">
+        <div class="brand-icon-wrapper">
+          <div class="brand-icon-halo"></div>
+          <div class="brand-icon-core"></div>
+        </div>
+        <div class="brand-title-group">
+          <span class="brand-title">ANTIGRAVITY // NEXUS</span>
+          <span class="brand-subtitle">MULTIDIMENSIONAL SENSORY ENVIRONMENT v2.6</span>
+        </div>
+      </div>
+
+      <!-- Center Sensory Mode Navigation -->
+      <nav class="sensory-mode-nav" aria-label="Sensory Modes">
+        <button class="mode-tab-btn active" data-mode="quantum" id="tab-quantum">
+          <span class="tab-icon">✧</span> QUANTUM SWARM
+        </button>
+        <button class="mode-tab-btn" data-mode="singularity" id="tab-singularity">
+          <span class="tab-icon">◎</span> SINGULARITY
+        </button>
+        <button class="mode-tab-btn" data-mode="neural" id="tab-neural">
+          <span class="tab-icon">Ψ</span> NEURAL LATTICE
+        </button>
+        <button class="mode-tab-btn" data-mode="vortex" id="tab-vortex">
+          <span class="tab-icon">🌀</span> VORTEX FLOW
+        </button>
+        <button class="mode-tab-btn" data-mode="audio" id="tab-audio">
+          <span class="tab-icon">⚡</span> AUDIO RESONANCE
+        </button>
+      </nav>
+
+      <!-- Status & Audio Deck Controls -->
+      <div class="hud-status-group">
+        <div class="status-badge">
+          <div class="pulse-dot"></div>
+          <span>SYNCHRONIZED</span>
+        </div>
+        <button id="audio-toggle-btn" class="audio-toggle-btn" aria-label="Toggle Master Audio">
+          <span>🔊</span> AUDIO ACTIVE
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Workspace 3-Column Layout -->
+    <section class="hud-main-workspace">
+      <!-- Left Column: Auditive & Tactile Controllers -->
+      <aside class="hud-sidebar-left">
+        <!-- 1. Sound Matrix Sequencer Card -->
+        <article class="glass-panel glass-panel-cyan">
+          <div class="card-header">
+            <h2 class="card-title">
+              <span class="card-title-icon">♪</span> 16-STEP SOUND MATRIX
+            </h2>
+            <span class="card-badge">POLYPHONIC</span>
+          </div>
+          <div class="card-body">
+            <div class="sequencer-controls">
+              <div>
+                <label for="scale-select" style="color: var(--text-muted); margin-right: 4px;">Scale:</label>
+                <select id="scale-select" class="scale-select">
+                  <option value="lydian">Cyber Lydian</option>
+                  <option value="neotokyo">Neo-Tokyo Insen</option>
+                  <option value="pentatonic">Major Pentatonic</option>
+                  <option value="deepvoid">Deep Void Minor</option>
+                  <option value="celestial">High Celestial</option>
+                </select>
+              </div>
+              <button id="clear-matrix-btn" class="btn-action-secondary" style="padding: 2px 8px; font-size: 0.65rem;">CLEAR</button>
+            </div>
+
+            <!-- 16-Step Sequencer Grid Root -->
+            <div id="sequencer-matrix-root" class="sequencer-matrix"></div>
+
+            <div class="control-row">
+              <span class="control-label">Tempo:</span>
+              <input type="range" id="bpm-slider" class="quantum-slider" min="60" max="180" value="120">
+              <span id="bpm-val" style="color: var(--neon-cyan); font-family: var(--font-mono); font-size: 0.7rem;">120 BPM</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- 2. Tactile Continuous Theremin Ribbon Pad -->
+        <article class="glass-panel glass-panel-purple">
+          <div class="card-header">
+            <h2 class="card-title">
+              <span class="card-title-icon">≋</span> CONTINUOUS XY THEREMIN
+            </h2>
+            <span class="card-badge">TACTILE SENSORY</span>
+          </div>
+          <div class="card-body">
+            <div id="theremin-pad-root" class="theremin-pad-wrapper">
+              <div class="theremin-crosshair"></div>
+              <div class="theremin-hint">DRAG CURSOR ACROSS PAD<br><span style="color: var(--neon-cyan); font-size: 0.6rem;">[ X: Pitch Glide • Y: Filter Resonance ]</span></div>
+            </div>
+            <div style="display: flex; gap: 8px;">
+              <button id="soundscape-toggle-btn" class="btn-action-primary" style="flex: 1;">
+                STOP SOUNDSCAPE
+              </button>
+            </div>
+          </div>
+        </article>
+
+        <!-- 3. Real-Time Audio Frequency Spectrum -->
+        <article class="glass-panel">
+          <div class="card-header">
+            <h2 class="card-title">
+              <span class="card-title-icon">📊</span> FFT SPECTRUM ANALYZER
+            </h2>
+            <span class="card-badge">REAL-TIME</span>
+          </div>
+          <div class="card-body">
+            <div class="visualizer-canvas-container">
+              <canvas id="fft-spectrum-canvas"></canvas>
+            </div>
+          </div>
+        </article>
+      </aside>
+
+      <!-- Center Viewport Overlay (HUD Direct Interaction Prompts) -->
+      <div class="hud-center-stage">
+        <div class="hud-canvas-prompt">
+          [ CLICK & DRAG: ANTI-GRAVITY ANOMALY • HOLD: GRAVITATIONAL SHOCKWAVE • SPACEBAR: RADIAL PULSE ]
+        </div>
+        <div></div>
+      </div>
+
+      <!-- Right Column: Cognitive Depth & Agent Swarm Matrix -->
+      <aside class="hud-sidebar-right">
+        <!-- 1. Autonomous Multi-Agent Swarm Matrix -->
+        <article class="glass-panel glass-panel-emerald">
+          <div class="card-header">
+            <h2 class="card-title">
+              <span class="card-title-icon">Ω</span> AGENT SWARM MATRIX
+            </h2>
+            <span class="card-badge">COGNITIVE SWARM</span>
+          </div>
+          <div class="card-body">
+            <div id="agent-swarm-root" class="agent-swarm-list"></div>
+          </div>
+        </article>
+
+        <!-- 2. Tree-of-Thought Reasoning Visualizer -->
+        <article class="glass-panel">
+          <div class="card-header">
+            <h2 class="card-title">
+              <span class="card-title-icon">🌿</span> TREE-OF-THOUGHT ENGINE
+            </h2>
+            <span class="card-badge">AUTONOMOUS REASONING</span>
+          </div>
+          <div class="card-body">
+            <div id="tot-container-root" class="tot-container"></div>
+          </div>
+        </article>
+
+        <!-- 3. Algorithmic Code Weaver & Math Sandbox -->
+        <article class="glass-panel">
+          <div class="card-header">
+            <h2 class="card-title">
+              <span class="card-title-icon">💻</span> GENERATIVE CODE WEAVER
+            </h2>
+            <button id="cycle-code-btn" class="btn-action-secondary" style="padding: 2px 8px; font-size: 0.65rem;">CYCLE ALGORITHM</button>
+          </div>
+          <div class="card-body">
+            <div id="code-weaver-output" class="code-weaver-box"></div>
+            <div class="control-row" style="margin-top: 4px;">
+              <span class="control-label">Particle Density:</span>
+              <input type="range" id="particle-count-slider" class="quantum-slider" min="400" max="2500" step="100" value="1200">
+            </div>
+          </div>
+        </article>
+      </aside>
+    </section>
+
+    <!-- Bottom Telemetry HUD Bar -->
+    <footer class="hud-footer">
+      <div class="telemetry-metrics">
+        <div class="metric-item">
+          <span class="metric-label">FPS:</span>
+          <span id="fps-metric-val" class="metric-value">60 FPS</span>
+        </div>
+        <div class="metric-item">
+          <span class="metric-label">PARTICLES:</span>
+          <span id="particles-metric-val" class="metric-value">1200</span>
+        </div>
+        <div class="metric-item">
+          <span class="metric-label">AUDIO ENERGY:</span>
+          <span id="energy-metric-val" class="metric-value">0%</span>
+        </div>
+        <div class="metric-item">
+          <span class="metric-label">COGNITIVE STATE:</span>
+          <span id="state-metric-val" class="metric-value" style="color: var(--neon-purple);">NEURAL_OVERCLOCK</span>
+        </div>
+      </div>
+
+      <div class="action-hints">
+        <span><span class="key-hint">1-5</span> Switch Modes</span>
+        <span><span class="key-hint">M</span> Toggle Mute</span>
+        <span><span class="key-hint">SPACE</span> Shockwave</span>
+      </div>
+    </footer>
+  </main>
+
+  <!-- Application Subsystem Scripts -->
+  <script src="js/audio/synthEngine.js"></script>
+  <script src="js/audio/soundscape.js"></script>
+  <script src="js/audio/uiSonification.js"></script>
+
+  <script src="js/visual/particleField.js"></script>
+  <script src="js/visual/neuralGraph.js"></script>
+  <script src="js/visual/audioVisualizer.js"></script>
+  <script src="js/visual/singularityLens.js"></script>
+
+  <script src="js/cognitive/agentMatrix.js"></script>
+  <script src="js/cognitive/treeOfThought.js"></script>
+  <script src="js/cognitive/generativeSandbox.js"></script>
+
+  <script src="js/components/soundMatrix.js"></script>
+  <script src="js/components/thereminPad.js"></script>
+  <script src="js/components/telemetryHUD.js"></script>
+  <script src="js/components/modalController.js"></script>
+
+  <script src="js/app.js"></script>
+</body>
+</html>

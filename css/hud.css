@@ -1,0 +1,345 @@
+/* ==========================================================================
+   QUANTUM NEXUS HUD & LAYOUT SYSTEM
+   Futuristic Cyberpunk Interface Framing & Telemetry Overlays
+   ========================================================================== */
+
+#app-container {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: radial-gradient(circle at 50% 50%, #081229 0%, #030712 100%);
+  overflow: hidden;
+}
+
+/* Background Canvas Layer */
+#simulation-viewport {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  cursor: crosshair;
+}
+
+/* Vignette and Holographic Grid Overlay */
+.hud-grid-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: 
+    linear-gradient(rgba(0, 243, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 243, 255, 0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.hud-vignette {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  box-shadow: inset 0 0 120px rgba(0, 0, 0, 0.85);
+  pointer-events: none;
+  z-index: 3;
+}
+
+/* Scanline Effect */
+.hud-scanline {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(180deg, transparent, rgba(0, 243, 255, 0.2), transparent);
+  animation: scanline 8s linear infinite;
+  pointer-events: none;
+  z-index: 4;
+}
+
+/* HUD Top Header Bar */
+.hud-header {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 24px;
+  background: linear-gradient(180deg, rgba(7, 13, 29, 0.85) 0%, rgba(7, 13, 29, 0.2) 100%);
+  border-bottom: 1px solid var(--border-subtle);
+  backdrop-filter: blur(12px);
+}
+
+.hud-brand {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.brand-icon-wrapper {
+  position: relative;
+  width: 38px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.brand-icon-halo {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border: 2px dashed var(--neon-cyan);
+  border-radius: var(--radius-full);
+  animation: radarSweep 10s linear infinite;
+}
+
+.brand-icon-core {
+  width: 18px;
+  height: 18px;
+  background: var(--neon-cyan);
+  border-radius: var(--radius-full);
+  box-shadow: 0 0 15px var(--neon-cyan);
+  animation: pulseGlow 2.5s infinite;
+}
+
+.brand-title-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.brand-title {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 900;
+  letter-spacing: 3px;
+  background: linear-gradient(90deg, #ffffff, var(--neon-cyan), var(--neon-purple));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 0 20px rgba(0, 243, 255, 0.4);
+}
+
+.brand-subtitle {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 2px;
+  color: var(--neon-cyan);
+  opacity: 0.85;
+}
+
+/* Sensory Mode Navigation Tabs */
+.sensory-mode-nav {
+  display: flex;
+  gap: 8px;
+  background: rgba(13, 22, 44, 0.6);
+  padding: 4px;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-subtle);
+}
+
+.mode-tab-btn {
+  background: transparent;
+  border: 1px solid transparent;
+  color: var(--text-secondary);
+  font-family: var(--font-display);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  padding: 8px 16px;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all var(--transition-smooth);
+}
+
+.mode-tab-btn .tab-icon {
+  font-size: 0.9rem;
+}
+
+.mode-tab-btn:hover {
+  color: var(--text-primary);
+  background: var(--bg-glass-hover);
+  border-color: rgba(0, 243, 255, 0.2);
+}
+
+.mode-tab-btn.active {
+  color: #ffffff;
+  background: linear-gradient(135deg, rgba(0, 243, 255, 0.25) 0%, rgba(168, 85, 247, 0.25) 100%);
+  border-color: var(--neon-cyan);
+  box-shadow: 0 0 15px rgba(0, 243, 255, 0.3);
+}
+
+/* System State HUD Info */
+.hud-status-group {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+}
+
+.status-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  border-radius: var(--radius-full);
+  background: rgba(0, 255, 136, 0.1);
+  border: 1px solid rgba(0, 255, 136, 0.3);
+  color: var(--neon-emerald);
+}
+
+.pulse-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--neon-emerald);
+  box-shadow: 0 0 8px var(--neon-emerald);
+  animation: pulseGlow 1.5s infinite;
+}
+
+.audio-toggle-btn {
+  background: rgba(0, 243, 255, 0.15);
+  border: 1px solid var(--neon-cyan);
+  color: var(--neon-cyan);
+  font-family: var(--font-display);
+  font-size: 0.75rem;
+  padding: 8px 16px;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all var(--transition-smooth);
+}
+
+.audio-toggle-btn:hover {
+  background: var(--neon-cyan);
+  color: var(--bg-deep-void);
+  box-shadow: 0 0 20px var(--neon-cyan);
+}
+
+.audio-toggle-btn.muted {
+  border-color: var(--text-muted);
+  color: var(--text-muted);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+/* Main Workspace HUD Area */
+.hud-main-workspace {
+  position: relative;
+  z-index: 5;
+  flex: 1;
+  display: grid;
+  grid-template-columns: 340px 1fr 360px;
+  gap: 16px;
+  padding: 16px 20px;
+  pointer-events: none; /* Let canvas capture interactions by default */
+}
+
+.hud-sidebar-left,
+.hud-sidebar-right,
+.hud-bottom-bar,
+.interactive-overlay {
+  pointer-events: auto; /* Re-enable pointer events on controls */
+}
+
+/* Left Sidebar - Cognitive & Audio Engine Control */
+.hud-sidebar-left {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  max-height: calc(100vh - 120px);
+  overflow-y: auto;
+}
+
+/* Center Stage Viewport Overlay - Info & Direct Touches */
+.hud-center-stage {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.hud-canvas-prompt {
+  background: rgba(7, 13, 29, 0.65);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(0, 243, 255, 0.2);
+  padding: 8px 20px;
+  border-radius: var(--radius-full);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--neon-cyan);
+  letter-spacing: 1px;
+  pointer-events: none;
+  animation: floatGentle 4s ease-in-out infinite;
+}
+
+/* Right Sidebar - Neural Matrix & Multidimensional Telemetry */
+.hud-sidebar-right {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  max-height: calc(100vh - 120px);
+  overflow-y: auto;
+}
+
+/* HUD Footer Telemetry Bar */
+.hud-footer {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 24px;
+  background: rgba(7, 13, 29, 0.9);
+  border-top: 1px solid var(--border-subtle);
+  backdrop-filter: blur(12px);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+}
+
+.telemetry-metrics {
+  display: flex;
+  gap: 20px;
+}
+
+.metric-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.metric-label {
+  color: var(--text-muted);
+}
+
+.metric-value {
+  color: var(--neon-cyan);
+  font-weight: 600;
+}
+
+.action-hints {
+  display: flex;
+  gap: 16px;
+  color: var(--text-secondary);
+}
+
+.key-hint {
+  display: inline-block;
+  padding: 2px 6px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-xs);
+  color: var(--text-primary);
+  font-weight: bold;
+}

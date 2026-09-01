@@ -1,0 +1,186 @@
+/* ==========================================================================
+   QUANTUM NEXUS DESIGN SYSTEM
+   Cyber-Luminescent & Glassmorphic Design Tokens
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800;900&family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;700&family=Syne:wght@500;700;800&display=swap');
+
+:root {
+  /* Core Color Palette - Cyber Luminescence */
+  --bg-deep-void: #030712;
+  --bg-space-dark: #070d1d;
+  --bg-surface-dark: rgba(13, 22, 44, 0.65);
+  --bg-surface-card: rgba(16, 28, 58, 0.45);
+  --bg-surface-glass: rgba(10, 20, 42, 0.7);
+  --bg-glass-hover: rgba(26, 45, 88, 0.6);
+  --bg-glass-active: rgba(38, 64, 122, 0.75);
+
+  /* Neon Accent Illuminations */
+  --neon-cyan: #00f3ff;
+  --neon-cyan-glow: rgba(0, 243, 255, 0.45);
+  --neon-cyan-subtle: rgba(0, 243, 255, 0.15);
+  
+  --neon-purple: #a855f7;
+  --neon-purple-glow: rgba(168, 85, 247, 0.45);
+  --neon-purple-subtle: rgba(168, 85, 247, 0.15);
+
+  --neon-pink: #ff007f;
+  --neon-pink-glow: rgba(255, 0, 127, 0.45);
+  --neon-pink-subtle: rgba(255, 0, 127, 0.15);
+
+  --neon-emerald: #00ff88;
+  --neon-emerald-glow: rgba(0, 255, 136, 0.45);
+  --neon-emerald-subtle: rgba(0, 255, 136, 0.15);
+
+  --neon-amber: #ffb703;
+  --neon-amber-glow: rgba(255, 183, 3, 0.45);
+  --neon-amber-subtle: rgba(255, 183, 3, 0.15);
+
+  /* Text Colors */
+  --text-primary: #f8fafc;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+  --text-accent: #38bdf8;
+
+  /* Borders & Highlights */
+  --border-subtle: rgba(255, 255, 255, 0.08);
+  --border-glass: rgba(0, 243, 255, 0.25);
+  --border-glow: rgba(0, 243, 255, 0.5);
+  --border-pink: rgba(255, 0, 127, 0.4);
+  --border-emerald: rgba(0, 255, 136, 0.4);
+
+  /* Typography */
+  --font-display: 'Orbitron', 'Syne', sans-serif;
+  --font-body: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  --font-accent: 'Syne', sans-serif;
+
+  /* Shadows & Illuminations */
+  --shadow-glass: 0 8px 32px 0 rgba(0, 0, 0, 0.45);
+  --shadow-cyan-glow: 0 0 25px rgba(0, 243, 255, 0.3), inset 0 0 15px rgba(0, 243, 255, 0.1);
+  --shadow-purple-glow: 0 0 25px rgba(168, 85, 247, 0.3), inset 0 0 15px rgba(168, 85, 247, 0.1);
+  --shadow-pink-glow: 0 0 25px rgba(255, 0, 127, 0.3), inset 0 0 15px rgba(255, 0, 127, 0.1);
+  --shadow-emerald-glow: 0 0 25px rgba(0, 255, 136, 0.3), inset 0 0 15px rgba(0, 255, 136, 0.1);
+
+  /* Transitions */
+  --transition-fast: 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-smooth: 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-bounce: 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  /* Radii */
+  --radius-xs: 4px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 18px;
+  --radius-full: 9999px;
+}
+
+/* CSS Reset & Base */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background-color: var(--bg-deep-void);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  user-select: none;
+}
+
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(3, 7, 18, 0.8);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 243, 255, 0.3);
+  border-radius: var(--radius-xs);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 243, 255, 0.6);
+}
+
+/* Utility Animations */
+@keyframes pulseGlow {
+  0%, 100% {
+    opacity: 0.4;
+    filter: drop-shadow(0 0 8px var(--neon-cyan));
+  }
+  50% {
+    opacity: 0.9;
+    filter: drop-shadow(0 0 20px var(--neon-cyan));
+  }
+}
+
+@keyframes scanline {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(1000%); }
+}
+
+@keyframes radarSweep {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes floatGentle {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-6px); }
+}
+
+@keyframes neonBorderPulse {
+  0%, 100% { border-color: rgba(0, 243, 255, 0.2); box-shadow: 0 0 10px rgba(0, 243, 255, 0.1); }
+  50% { border-color: rgba(0, 243, 255, 0.6); box-shadow: 0 0 20px rgba(0, 243, 255, 0.35); }
+}
+
+@keyframes glitchFlicker {
+  0% { opacity: 0.98; }
+  5% { opacity: 0.7; transform: skewX(1deg); }
+  6% { opacity: 1; transform: skewX(0); }
+  50% { opacity: 0.95; }
+  52% { opacity: 0.8; transform: skewX(-1.5deg); }
+  53% { opacity: 1; transform: skewX(0); }
+  100% { opacity: 1; }
+}
+
+/* Glass Surface Styles */
+.glass-panel {
+  background: var(--bg-surface-glass);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-glass);
+  position: relative;
+  overflow: hidden;
+  transition: all var(--transition-smooth);
+}
+
+.glass-panel:hover {
+  border-color: var(--border-glass);
+  box-shadow: var(--shadow-cyan-glow), var(--shadow-glass);
+}
+
+.glass-panel-cyan {
+  border-color: var(--border-glass);
+}
+
+.glass-panel-purple {
+  border-color: var(--border-pink);
+}
+
+.glass-panel-emerald {
+  border-color: var(--border-emerald);
+}
