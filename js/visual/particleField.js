@@ -1,6 +1,7 @@
 /**
  * QUANTUM NEXUS - QUANTUM PARTICLE PHYSICS FIELD
- * High-performance 2D/WebGL particle simulation with anti-gravity forces,
+ * High-performance 2D particle simulation with Global Power State,
+ * Attraction & Repulsion mechanics, persistent gravitational beacons,
  * fluid vortices, singularity attractors & real-time audio FFT reactivity.
  */
 
@@ -14,12 +15,22 @@ class ParticleField {
     this.width = window.innerWidth;
     this.height = window.innerHeight;
 
+    // Global Power State
+    this.isPoweredOn = true;
+    this.powerTransitionAlpha = 1.0;
+
+    // Force Physics State ('repel' | 'attract' | 'dual')
+    this.forceType = 'repel';
+
+    // Persistent Gravitational / Anti-Gravity Beacons
+    this.beacons = [];
+
     this.mouse = {
       x: this.width / 2,
       y: this.height / 2,
       isDown: false,
       downStartTime: 0,
-      radius: 200,
+      radius: 220,
       forceMultiplier: 1.0
     };
 
@@ -70,6 +81,16 @@ class ParticleField {
     }
   }
 
+  setPowerState(isOn) {
+    this.isPoweredOn = isOn;
+  }
+
+  setForceType(type) {
+    if (['repel', 'attract', 'dual'].includes(type)) {
+      this.forceType = type;
+    }
+  }
+
   setMode(newMode) {
     if (this.colorPalettes[newMode]) {
       this.mode = newMode;
@@ -83,6 +104,29 @@ class ParticleField {
   setParticleCount(count) {
     this.particleCount = count;
     this.spawnParticles();
+  }
+
+  addBeacon(x, y, type = 'attractor') {
+    this.beacons.push({
+      x,
+      y,
+      type, // 'attractor' (pulls) or 'repulsor' (pushes)
+      radius: 18,
+      pulse: 0,
+      strength: type === 'attractor' ? 4.5 : 5.5,
+      color: type === 'attractor' ? '#a855f7' : '#00f3ff'
+    });
+
+    if (window.QuantumSonification) {
+      window.QuantumSonification.playBeaconDrop(type);
+    }
+  }
+
+  clearBeacons() {
+    this.beacons = [];
+    if (window.QuantumSonification) {
+      window.QuantumSonification.playClick();
+    }
   }
 
   addShockwave(x, y, power = 1.0) {
@@ -108,9 +152,17 @@ class ParticleField {
     });
 
     this.canvas.addEventListener('mousedown', (e) => {
-      this.mouse.isDown = true;
-      this.mouse.downStartTime = performance.now();
+      if (e.button === 0) { // Left click
+        this.mouse.isDown = true;
+        this.mouse.downStartTime = performance.now();
+      } else if (e.button === 2) { // Right click = place beacon
+        e.preventDefault();
+        const type = this.forceType === 'attract' ? 'attractor' : 'repulsor';
+        this.addBeacon(e.clientX, e.clientY, type);
+      }
     });
+
+    this.canvas.addEventListener('contextmenu', (e) => e.preventDefault());
 
     window.addEventListener('mouseup', (e) => {
       if (this.mouse.isDown) {
@@ -130,9 +182,13 @@ class ParticleField {
   }
 
   update(audioData) {
+    // Smooth power state transition
+    const targetAlpha = this.isPoweredOn ? 1.0 : 0.08;
+    this.powerTransitionAlpha += (targetAlpha - this.powerTransitionAlpha) * 0.08;
+
     // Average audio energy for audio reactivity
     let audioEnergy = 0;
-    if (audioData && audioData.length > 0) {
+    if (this.isPoweredOn && audioData && audioData.length > 0) {
       let sum = 0;
       for (let i = 0; i < audioData.length; i++) {
         sum += audioData[i];
@@ -153,9 +209,23 @@ class ParticleField {
       }
     }
 
+    // Update Beacons pulse animation
+    for (let b = 0; b < this.beacons.length; b++) {
+      this.beacons[b].pulse = (this.beacons[b].pulse + 0.05) % (Math.PI * 2);
+    }
+
     // Particle Physics Loop
     for (let i = 0; i < this.particles.length; i++) {
       const p = this.particles[i];
+
+      // If powered off: slow to cryogenic drift
+      if (!this.isPoweredOn) {
+        p.vx *= 0.88;
+        p.vy *= 0.88;
+        p.x += p.vx + (Math.random() - 0.5) * 0.1;
+        p.y += p.vy + (Math.random() - 0.5) * 0.1;
+        continue;
+      }
 
       // Audio reactive size boost
       p.radius = p.baseRadius * (1 + audioEnergy * 2.2);
@@ -165,10 +235,32 @@ class ParticleField {
       const dy = this.mouse.y - p.y;
       const dist = Math.sqrt(dx * dx + dy * dy);
 
-      // Distance to Center
-      const cdx = centerX - p.x;
-      const cdy = centerY - p.y;
-      const cdist = Math.sqrt(cdx * cdx + cdy * cdy);
+      // Apply Persistent Beacons Forces
+      for (let b = 0; b < this.beacons.length; b++) {
+        const beacon = this.beacons[b];
+        const bdx = beacon.x - p.x;
+        const bdy = beacon.y - p.y;
+        const bdist = Math.sqrt(bdx * bdx + bdy * bdy);
+
+        if (beacon.type === 'attractor') {
+          // Gravitational Attraction & Orbit
+          if (bdist > 10) {
+            const pull = Math.min((beacon.strength * 120) / (bdist * bdist + 150), 3.0);
+            p.vx += (bdx / bdist) * pull;
+            p.vy += (bdy / bdist) * pull;
+            // Orbital tangential velocity
+            p.vx += (-bdy / bdist) * 0.8;
+            p.vy += (bdx / bdist) * 0.8;
+          }
+        } else {
+          // Anti-Gravity Repulsor
+          if (bdist < 260) {
+            const push = (1 - bdist / 260) * beacon.strength * 1.8;
+            p.vx -= (bdx / (bdist || 1)) * push;
+            p.vy -= (bdy / (bdist || 1)) * push;
+          }
+        }
+      }
 
       // Shockwave Repulsion
       for (let s = 0; s < this.shockwaves.length; s++) {
@@ -185,9 +277,41 @@ class ParticleField {
         }
       }
 
+      // Cursor Physics: Attraction vs Repulsion Mechanics
+      if (dist < this.mouse.radius) {
+        const forceFactor = (1 - dist / this.mouse.radius);
+
+        if (this.forceType === 'attract') {
+          // Inward Attraction Swirl
+          const attractPull = forceFactor * (this.mouse.isDown ? 7.0 : 3.5);
+          p.vx += (dx / dist) * attractPull;
+          p.vy += (dy / dist) * attractPull;
+          // Orbital rotation
+          p.vx += (-dy / dist) * 1.6;
+          p.vy += (dx / dist) * 1.6;
+
+        } else if (this.forceType === 'dual') {
+          // Left side attracts, right side repels (Dual Pole)
+          const isLeft = p.x < this.mouse.x;
+          const dualForce = forceFactor * 4.0;
+          if (isLeft) {
+            p.vx += (dx / dist) * dualForce;
+            p.vy += (dy / dist) * dualForce;
+          } else {
+            p.vx -= (dx / dist) * dualForce;
+            p.vy -= (dy / dist) * dualForce;
+          }
+
+        } else {
+          // Default Repulsion
+          const repelForce = forceFactor * (this.mouse.isDown ? 8.0 : 3.5);
+          p.vx -= (dx / dist) * repelForce;
+          p.vy -= (dy / dist) * repelForce;
+        }
+      }
+
       // Physics Modes
       if (this.mode === 'singularity') {
-        // Gravitational Attraction towards center / mouse
         const targetX = this.mouse.isDown ? this.mouse.x : centerX;
         const targetY = this.mouse.isDown ? this.mouse.y : centerY;
         const tdx = targetX - p.x;
@@ -197,13 +321,10 @@ class ParticleField {
         const gravity = Math.min(600 / (tdist * tdist + 200), 2.5);
         p.vx += (tdx / (tdist || 1)) * gravity;
         p.vy += (tdy / (tdist || 1)) * gravity;
-
-        // Tangential swirl
         p.vx += (-tdy / (tdist || 1)) * 1.4;
         p.vy += (tdx / (tdist || 1)) * 1.4;
 
       } else if (this.mode === 'vortex') {
-        // Continuous Swirling Vortex
         p.angle += p.angularSpeed * (1 + audioEnergy * 2);
         const targetX = centerX + Math.cos(p.angle) * p.orbitRadius;
         const targetY = centerY + Math.sin(p.angle) * p.orbitRadius;
@@ -211,20 +332,11 @@ class ParticleField {
         p.vy += (targetY - p.y) * 0.03;
 
       } else if (this.mode === 'neural') {
-        // Lattice spring physics
         p.x += p.vx;
         p.y += p.vy;
 
       } else {
-        // Default 'quantum' / 'audio' anti-gravity mode
-        // Anti-Gravity Repulsion from cursor
-        if (dist < this.mouse.radius) {
-          const repelForce = (1 - dist / this.mouse.radius) * (this.mouse.isDown ? 8.0 : 3.5);
-          p.vx -= (dx / dist) * repelForce;
-          p.vy -= (dy / dist) * repelForce;
-        }
-
-        // Ambient gentle drift
+        // Ambient drift
         p.vx += (Math.random() - 0.5) * 0.2;
         p.vy += (Math.random() - 0.5) * 0.2;
       }
@@ -248,6 +360,62 @@ class ParticleField {
   render() {
     this.ctx.clearRect(0, 0, this.width, this.height);
 
+    // If powered off: render dormant standby matrix
+    if (this.powerTransitionAlpha < 0.3) {
+      this.ctx.save();
+      this.ctx.strokeStyle = 'rgba(255, 183, 3, 0.04)';
+      this.ctx.lineWidth = 1;
+      const step = 60;
+      for (let x = 0; x < this.width; x += step) {
+        this.ctx.beginPath();
+        this.ctx.moveTo(x, 0);
+        this.ctx.lineTo(x, this.height);
+        this.ctx.stroke();
+      }
+      for (let y = 0; y < this.height; y += step) {
+        this.ctx.beginPath();
+        this.ctx.moveTo(0, y);
+        this.ctx.lineTo(this.width, y);
+        this.ctx.stroke();
+      }
+      this.ctx.restore();
+    }
+
+    // Render Persistent Beacons
+    for (let b = 0; b < this.beacons.length; b++) {
+      const beacon = this.beacons[b];
+      const pulseSize = Math.sin(beacon.pulse) * 6;
+
+      this.ctx.save();
+      // Outer glow field
+      this.ctx.beginPath();
+      this.ctx.arc(beacon.x, beacon.y, beacon.radius + pulseSize + 12, 0, Math.PI * 2);
+      this.ctx.fillStyle = beacon.type === 'attractor' ? 'rgba(168, 85, 247, 0.15)' : 'rgba(0, 243, 255, 0.15)';
+      this.ctx.fill();
+
+      // Orbital boundary ring
+      this.ctx.beginPath();
+      this.ctx.arc(beacon.x, beacon.y, beacon.radius + pulseSize, 0, Math.PI * 2);
+      this.ctx.strokeStyle = beacon.color;
+      this.ctx.lineWidth = 2;
+      this.ctx.shadowColor = beacon.color;
+      this.ctx.shadowBlur = 18;
+      this.ctx.stroke();
+
+      // Core singularity/repulsor dot
+      this.ctx.beginPath();
+      this.ctx.arc(beacon.x, beacon.y, 6, 0, Math.PI * 2);
+      this.ctx.fillStyle = '#ffffff';
+      this.ctx.fill();
+
+      // Label tag
+      this.ctx.font = '8px "JetBrains Mono", monospace';
+      this.ctx.fillStyle = beacon.color;
+      this.ctx.textAlign = 'center';
+      this.ctx.fillText(beacon.type.toUpperCase(), beacon.x, beacon.y + beacon.radius + 20);
+      this.ctx.restore();
+    }
+
     // Draw Shockwaves
     for (let s = 0; s < this.shockwaves.length; s++) {
       const sw = this.shockwaves[s];
@@ -263,7 +431,7 @@ class ParticleField {
     }
 
     // Connect Neural Lines if in 'neural' or 'quantum' mode
-    if (this.mode === 'neural' || this.mode === 'quantum') {
+    if ((this.mode === 'neural' || this.mode === 'quantum') && this.isPoweredOn) {
       const maxConnectDist = this.mode === 'neural' ? 95 : 65;
       const maxLines = 180;
       let lineCount = 0;
@@ -278,7 +446,7 @@ class ParticleField {
           const dist = Math.sqrt(dx * dx + dy * dy);
 
           if (dist < maxConnectDist) {
-            const alpha = (1 - dist / maxConnectDist) * 0.35;
+            const alpha = (1 - dist / maxConnectDist) * 0.35 * this.powerTransitionAlpha;
             this.ctx.beginPath();
             this.ctx.moveTo(p1.x, p1.y);
             this.ctx.lineTo(p2.x, p2.y);
@@ -292,15 +460,17 @@ class ParticleField {
     }
 
     // Render Particles
+    this.ctx.globalAlpha = this.powerTransitionAlpha;
     for (let i = 0; i < this.particles.length; i++) {
       const p = this.particles[i];
       this.ctx.beginPath();
       this.ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
       this.ctx.fillStyle = p.color;
       this.ctx.shadowColor = p.color;
-      this.ctx.shadowBlur = p.radius * 3.5;
+      this.ctx.shadowBlur = this.isPoweredOn ? p.radius * 3.5 : 0;
       this.ctx.fill();
     }
+    this.ctx.globalAlpha = 1.0;
   }
 }
 

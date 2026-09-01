@@ -317,6 +317,96 @@
 /* ==========================================================================
    5. INTERACTIVE CONTROLS: Sliders & Tactile Buttons
    ========================================================================== */
+
+/* Force Mode Physics Switcher (Repel vs Attract vs Dual) */
+.force-switcher-container {
+  display: flex;
+  background: rgba(3, 7, 18, 0.7);
+  border: 1px solid var(--border-glass);
+  border-radius: var(--radius-md);
+  padding: 4px;
+  gap: 4px;
+}
+
+.force-btn {
+  flex: 1;
+  background: transparent;
+  border: 1px solid transparent;
+  color: var(--text-secondary);
+  font-family: var(--font-display);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  padding: 6px 10px;
+  border-radius: var(--radius-xs);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: all var(--transition-fast);
+}
+
+.force-btn:hover {
+  background: rgba(0, 243, 255, 0.1);
+  color: var(--text-primary);
+}
+
+.force-btn.active.repel {
+  background: rgba(0, 243, 255, 0.25);
+  border-color: var(--neon-cyan);
+  color: var(--neon-cyan);
+  box-shadow: 0 0 10px rgba(0, 243, 255, 0.3);
+}
+
+.force-btn.active.attract {
+  background: rgba(168, 85, 247, 0.25);
+  border-color: var(--neon-purple);
+  color: var(--neon-purple);
+  box-shadow: 0 0 10px rgba(168, 85, 247, 0.3);
+}
+
+.force-btn.active.dual {
+  background: rgba(0, 255, 136, 0.25);
+  border-color: var(--neon-emerald);
+  color: var(--neon-emerald);
+  box-shadow: 0 0 10px rgba(0, 255, 136, 0.3);
+}
+
+/* Beacon Management Toolbar */
+.beacon-toolbar {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 6px;
+}
+
+.beacon-tool-btn {
+  background: rgba(13, 22, 44, 0.7);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-secondary);
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  padding: 6px 8px;
+  border-radius: var(--radius-xs);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  transition: all var(--transition-fast);
+}
+
+.beacon-tool-btn:hover {
+  border-color: var(--neon-cyan);
+  color: #ffffff;
+  background: rgba(0, 243, 255, 0.15);
+}
+
+.beacon-tool-btn.attractor-btn:hover {
+  border-color: var(--neon-purple);
+  background: rgba(168, 85, 247, 0.15);
+}
+
 .control-row {
   display: flex;
   justify-content: space-between;

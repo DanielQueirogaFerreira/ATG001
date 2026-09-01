@@ -181,9 +181,48 @@
 .hud-status-group {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 12px;
   font-family: var(--font-mono);
   font-size: 0.75rem;
+}
+
+/* Master Power Core Toggle Button */
+.power-toggle-btn {
+  background: rgba(0, 255, 136, 0.15);
+  border: 1px solid var(--neon-emerald);
+  color: var(--neon-emerald);
+  font-family: var(--font-display);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  padding: 8px 14px;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 0 15px rgba(0, 255, 136, 0.2);
+  transition: all var(--transition-smooth);
+}
+
+.power-toggle-btn:hover {
+  background: var(--neon-emerald);
+  color: var(--bg-deep-void);
+  box-shadow: 0 0 25px var(--neon-emerald);
+  transform: translateY(-1px);
+}
+
+.power-toggle-btn.offline {
+  background: rgba(255, 0, 127, 0.12);
+  border-color: var(--neon-pink);
+  color: var(--neon-pink);
+  box-shadow: 0 0 12px rgba(255, 0, 127, 0.2);
+}
+
+.power-toggle-btn.offline:hover {
+  background: var(--neon-pink);
+  color: #ffffff;
+  box-shadow: 0 0 25px var(--neon-pink);
 }
 
 .status-badge {
@@ -197,6 +236,12 @@
   color: var(--neon-emerald);
 }
 
+.status-badge.offline {
+  background: rgba(255, 183, 3, 0.1);
+  border-color: rgba(255, 183, 3, 0.3);
+  color: var(--neon-amber);
+}
+
 .pulse-dot {
   width: 8px;
   height: 8px;
@@ -206,18 +251,23 @@
   animation: pulseGlow 1.5s infinite;
 }
 
+.pulse-dot.offline {
+  background: var(--neon-amber);
+  box-shadow: 0 0 8px var(--neon-amber);
+}
+
 .audio-toggle-btn {
   background: rgba(0, 243, 255, 0.15);
   border: 1px solid var(--neon-cyan);
   color: var(--neon-cyan);
   font-family: var(--font-display);
-  font-size: 0.75rem;
-  padding: 8px 16px;
+  font-size: 0.72rem;
+  padding: 8px 12px;
   border-radius: var(--radius-md);
   cursor: pointer;
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
   transition: all var(--transition-smooth);
 }
 
@@ -231,6 +281,55 @@
   border-color: var(--text-muted);
   color: var(--text-muted);
   background: rgba(255, 255, 255, 0.05);
+}
+
+/* ==========================================================================
+   GLOBAL POWER OFFLINE STYLING & CRT SHUTDOWN
+   ========================================================================== */
+#app-container.power-offline .hud-main-workspace {
+  filter: grayscale(0.85) brightness(0.4);
+  pointer-events: none;
+  transition: filter 0.8s ease;
+}
+
+#app-container.power-offline .glass-panel {
+  border-color: rgba(255, 183, 3, 0.15);
+  box-shadow: none;
+  background: rgba(4, 8, 18, 0.85);
+}
+
+#app-container.power-offline .hud-scanline {
+  background: linear-gradient(180deg, transparent, rgba(255, 183, 3, 0.1), transparent);
+}
+
+#app-container.power-offline .sensory-mode-nav {
+  opacity: 0.35;
+  pointer-events: none;
+}
+
+.power-offline-banner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(7, 13, 29, 0.88);
+  border: 1px solid var(--neon-amber);
+  box-shadow: 0 0 35px rgba(255, 183, 3, 0.25);
+  padding: 16px 36px;
+  border-radius: var(--radius-md);
+  text-align: center;
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  letter-spacing: 3px;
+  color: var(--neon-amber);
+  z-index: 50;
+  display: none;
+  backdrop-filter: blur(12px);
+  animation: pulseGlow 3s infinite;
+}
+
+#app-container.power-offline .power-offline-banner {
+  display: block;
 }
 
 /* Main Workspace HUD Area */

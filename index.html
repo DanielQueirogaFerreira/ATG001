@@ -29,9 +29,9 @@
         <strong>Seeable Visuals</strong>, <strong>Auditive Procedural Sound</strong>, <strong>Tactile Physics</strong>, 
         and <strong>Deep Cognitive Intelligence</strong>.
       </p>
-      <button id="splash-start-btn" class="splash-start-btn" id="btn-enter-system">INITIALIZE EXPERIENCE</button>
+      <button id="splash-start-btn" class="splash-start-btn">INITIALIZE EXPERIENCE</button>
       <div style="font-family: var(--font-mono); font-size: 0.7rem; color: var(--text-muted);">
-        [ Web Audio Engine • 60+ FPS Quantum Particles • Autonomous Agent Matrix ]
+        [ Global Reactor Power • Particle Attraction/Repulsion • Web Audio Engine • 60+ FPS ]
       </div>
     </div>
   </div>
@@ -45,6 +45,14 @@
     <div class="hud-grid-overlay" aria-hidden="true"></div>
     <div class="hud-vignette" aria-hidden="true"></div>
     <div class="hud-scanline" aria-hidden="true"></div>
+
+    <!-- Power Offline Standby Center Banner -->
+    <div class="power-offline-banner">
+      <div>⚠ REACTOR OFFLINE // CRYOGENIC SUSPENSION</div>
+      <div style="font-size: 0.65rem; color: var(--text-muted); margin-top: 6px; font-family: var(--font-mono);">
+        PRESS <span class="key-hint">P</span> OR CLICK "REACTOR OFFLINE" TO RESTORE GLOBAL POWER
+      </div>
+    </div>
 
     <!-- Top HUD Header -->
     <header class="hud-header">
@@ -78,12 +86,18 @@
         </button>
       </nav>
 
-      <!-- Status & Audio Deck Controls -->
+      <!-- Status, Global Power & Audio Deck Controls -->
       <div class="hud-status-group">
-        <div class="status-badge">
-          <div class="pulse-dot"></div>
-          <span>SYNCHRONIZED</span>
+        <!-- Master Power Reactor Switch -->
+        <button id="power-toggle-btn" class="power-toggle-btn" aria-label="Toggle Global Power State">
+          <span>⚡</span> REACTOR ONLINE
+        </button>
+
+        <div class="status-badge" id="system-status-badge">
+          <div class="pulse-dot" id="system-pulse-dot"></div>
+          <span id="system-status-text">SYNCHRONIZED</span>
         </div>
+
         <button id="audio-toggle-btn" class="audio-toggle-btn" aria-label="Toggle Master Audio">
           <span>🔊</span> AUDIO ACTIVE
         </button>
@@ -94,7 +108,49 @@
     <section class="hud-main-workspace">
       <!-- Left Column: Auditive & Tactile Controllers -->
       <aside class="hud-sidebar-left">
-        <!-- 1. Sound Matrix Sequencer Card -->
+        <!-- 1. Particle Force & Attraction/Repulsion Physics Deck -->
+        <article class="glass-panel glass-panel-cyan">
+          <div class="card-header">
+            <h2 class="card-title">
+              <span class="card-title-icon">🧲</span> FORCE FIELD DYNAMICS
+            </h2>
+            <span class="card-badge">TACTILE PHYSICS</span>
+          </div>
+          <div class="card-body">
+            <!-- Force Mode Selector Pill -->
+            <div class="force-switcher-container" aria-label="Particle Force Mode">
+              <button class="force-btn active repel" data-force="repel" id="btn-force-repel">
+                <span>⟵ REPEL ⟶</span>
+              </button>
+              <button class="force-btn" data-force="attract" id="btn-force-attract">
+                <span>⟶ ATTRACT ⟵</span>
+              </button>
+              <button class="force-btn" data-force="dual" id="btn-force-dual">
+                <span>☯ DUAL POLE</span>
+              </button>
+            </div>
+
+            <!-- Persistent Gravitational Beacons Toolbar -->
+            <div style="margin-top: 4px;">
+              <div style="font-family: var(--font-mono); font-size: 0.65rem; color: var(--text-muted); margin-bottom: 6px;">
+                GRAVITATIONAL BEACONS [RIGHT-CLICK OR ADD]:
+              </div>
+              <div class="beacon-toolbar">
+                <button id="add-attractor-btn" class="beacon-tool-btn attractor-btn">
+                  <span>+ ATTRACTOR</span>
+                </button>
+                <button id="add-repulsor-btn" class="beacon-tool-btn">
+                  <span>+ REPULSOR</span>
+                </button>
+                <button id="clear-beacons-btn" class="beacon-tool-btn" style="color: var(--neon-pink);">
+                  <span>✕ CLEAR</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- 2. Sound Matrix Sequencer Card -->
         <article class="glass-panel glass-panel-cyan">
           <div class="card-header">
             <h2 class="card-title">
@@ -128,7 +184,7 @@
           </div>
         </article>
 
-        <!-- 2. Tactile Continuous Theremin Ribbon Pad -->
+        <!-- 3. Tactile Continuous Theremin Ribbon Pad -->
         <article class="glass-panel glass-panel-purple">
           <div class="card-header">
             <h2 class="card-title">
@@ -149,7 +205,7 @@
           </div>
         </article>
 
-        <!-- 3. Real-Time Audio Frequency Spectrum -->
+        <!-- 4. Real-Time Audio Frequency Spectrum -->
         <article class="glass-panel">
           <div class="card-header">
             <h2 class="card-title">
@@ -168,7 +224,7 @@
       <!-- Center Viewport Overlay (HUD Direct Interaction Prompts) -->
       <div class="hud-center-stage">
         <div class="hud-canvas-prompt">
-          [ CLICK & DRAG: ANTI-GRAVITY ANOMALY • HOLD: GRAVITATIONAL SHOCKWAVE • SPACEBAR: RADIAL PULSE ]
+          [ CLICK & DRAG: FORCE FIELD • RIGHT-CLICK: DROP BEACON • P: POWER TOGGLE • A/R: ATTRACT/REPEL ]
         </div>
         <div></div>
       </div>
@@ -242,9 +298,10 @@
       </div>
 
       <div class="action-hints">
-        <span><span class="key-hint">1-5</span> Switch Modes</span>
-        <span><span class="key-hint">M</span> Toggle Mute</span>
-        <span><span class="key-hint">SPACE</span> Shockwave</span>
+        <span><span class="key-hint">P</span> Power</span>
+        <span><span class="key-hint">A/R</span> Attract / Repel</span>
+        <span><span class="key-hint">B</span> Beacon</span>
+        <span><span class="key-hint">1-5</span> Modes</span>
       </div>
     </footer>
   </main>
